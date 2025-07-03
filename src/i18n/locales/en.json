@@ -1,0 +1,230 @@
+{
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "description": "Enter your credentials to access your account",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "loginButton": "Sign In",
+      "loginButtonLoading": "Signing in...",
+      "loginError": "Login error",
+      "loginSuccess": "Login successful",
+      "invalidRole": "You don't have permission to access as owner"
+    },
+    "logout": {
+      "logoutSuccess": "Logout successful"
+    },
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email is invalid",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters"
+    }
+  },
+  "sidebar": {
+    "home": "Home",
+    "viewProperties": "View Properties",
+    "approvedProperties": "Approved Properties",
+    "pendingProperties": "Pending Properties",
+    "rejectedProperties": "Rejected Properties",
+    "admins": "Admins",
+    "logout": "Logout"
+  },
+  "navbar": {
+    "menu": "Menu"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "dashboard": "Dashboard",
+    "overview": "Overview",
+    "quickActions": "Quick Actions",
+    "statistics": "Statistics",
+    "recentActivity": "Recent Activity"
+  },
+  "dashboard": {
+    "welcome": "Welcome to Dashboard",
+    "subtitle": "Manage and organize all your properties with ease",
+    "cards": {
+      "viewUsers": "View Users",
+      "customerRequests": "Customer Requests",
+      "requestsList": "Requests List",
+      "viewProperties": "View Properties"
+    },
+    "actions": {
+      "viewUsers": "View Users",
+      "viewUsersDesc": "Manage and view all users in the system",
+      "customerRequests": "Customer Requests",
+      "customerRequestsDesc": "View and follow up on pending customer requests",
+      "requestsList": "Requests List",
+      "requestsListDesc": "View all approved and completed requests",
+      "viewProperties": "View Properties",
+      "viewPropertiesDesc": "Browse and manage all available properties",
+      "rejectedProperties": "Rejected Properties",
+      "rejectedPropertiesDesc": "View all rejected properties"
+    },
+    "stats": {
+      "totalProperties": "Total Properties",
+      "pendingRequests": "Pending Requests",
+      "approvedRequests": "Approved Requests",
+      "rejectedRequests": "Rejected Requests",
+      "totalUsers": "Total Users"
+    }
+  },
+  "properties": {
+    "title": "Title",
+    "area": "Area",
+    "propertyType": "Property Type",
+    "listingType": "Listing Type",
+    "descriptionAr": "Arabic Description",
+    "descriptionEn": "English Description",
+    "region": "Region",
+    "city": "City",
+    "neighborhood": "Neighborhood",
+    "streetAr": "Street (Arabic)",
+    "streetEn": "Street (English)",
+    "roomsCount": "Rooms",
+    "bathroomsCount": "Bathrooms",
+    "livingroomsCount": "Living Rooms",
+    "floorsCount": "Floors",
+    "buildingAge": "Building Age",
+    "condition": "Condition",
+    "finishType": "Finish Type",
+    "systemInformation": "System Information",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "tabs": {
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "actions": {
+      "view": "View",
+      "approve": "Approve",
+      "reject": "Reject",
+      "delete": "Delete",
+      "approveSuccess": "Property approved successfully",
+      "approveError": "Error approving property",
+      "rejectSuccess": "Property rejected successfully",
+      "rejectError": "Error rejecting property",
+      "deleteSuccess": "Property deleted successfully",
+      "deleteError": "Error deleting property",
+      "deleteConfirm": "Are you sure you want to delete this property?"
+    },
+    "list": {
+      "title": "Property Management",
+      "subtitle": "View and manage all property requests",
+      "noProperties": "No Properties",
+      "noPropertiesDesc": "No properties found in this category",
+      "errorTitle": "Error Loading Properties",
+      "errorMessage": "An error occurred while loading properties. Please try again.",
+      "refreshSuccess": "Data refreshed successfully"
+    },
+    "viewModal": {
+      "generalInfo": "General Information",
+      "propertySpecs": "Property Specifications",
+      "locationDetails": "Location Details",
+      "coordinates": "Coordinates",
+      "propertyId": "Property ID",
+      "adminId": "Admin ID",
+      "adminEmail": "Admin Email",
+      "statusId": "Status ID",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At"
+    },
+    "confirmModal": {
+      "approveTitle": "Confirm Approval",
+      "approveMessage": "Are you sure you want to approve the property \"{{title}}\"? This action cannot be undone.",
+      "rejectTitle": "Confirm Rejection",
+      "rejectMessage": "Are you sure you want to reject the property \"{{title}}\"? This action cannot be undone.",
+      "deleteTitle": "Confirm Deletion",
+      "deleteMessage": "Are you sure you want to delete the property \"{{title}}\"? This will permanently delete the property and cannot be recovered."
+    }
+  },
+  "users": {
+    "title": "Users",
+    "viewAll": "View All Users",
+    "totalUsers": "Total Users",
+    "activeUsers": "Active Users"
+  },
+  "requests": {
+    "title": "Requests",
+    "customer": "Customer Requests",
+    "list": "Requests List",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  },
+  "common": {
+    "or": "or",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset",
+    "owner": "Owner",
+    "notSpecified": "Not specified",
+    "notAssigned": "Not assigned",
+    "retry": "Retry",
+    "confirm": "Confirm"
+  },
+  "language": {
+    "arabic": "العربية",
+    "english": "English",
+    "switchLanguage": "Switch Language"
+  },
+  "admins": {
+    "list": {
+      "title": "Admin Management",
+      "subtitle": "View and manage all administrators in the system",
+      "noAdmins": "No Admins",
+      "noAdminsDesc": "No administrators found in the system",
+      "errorTitle": "Error Loading Admins",
+      "errorMessage": "An error occurred while loading administrators. Please try again.",
+      "refreshSuccess": "Admin data refreshed successfully"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "toggleSuccess": "Admin status changed successfully",
+      "toggleError": "Error changing admin status"
+    },
+    "card": {
+      "joinedOn": "Joined on"
+    },
+    "stats": {
+      "totalAdmins": "Total Admins",
+      "activeAdmins": "Active Admins",
+      "inactiveAdmins": "Inactive Admins"
+    },
+    "confirmModal": {
+      "title": "Confirm {{action}}",
+      "message": "Are you sure you want to {{action}} admin \"{{name}}\"? You can reverse this action later."
+    }
+  }
+}

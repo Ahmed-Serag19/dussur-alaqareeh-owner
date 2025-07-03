@@ -1,0 +1,230 @@
+{
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "description": "أدخل بياناتك للوصول إلى حسابك",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "loginButton": "تسجيل الدخول",
+      "loginButtonLoading": "جاري تسجيل الدخول...",
+      "loginError": "خطأ في تسجيل الدخول",
+      "loginSuccess": "تم تسجيل الدخول بنجاح",
+      "invalidRole": "ليس لديك صلاحية للوصول كمالك"
+    },
+    "logout": {
+      "logoutSuccess": "تم تسجيل الخروج بنجاح"
+    },
+    "validation": {
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "البريد الإلكتروني غير صحيح",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+    }
+  },
+  "sidebar": {
+    "home": "الرئيسية",
+    "viewProperties": "عرض العقارات",
+    "approvedProperties": "العقارات المقبولة",
+    "pendingProperties": "العقارات المعلقة",
+    "rejectedProperties": "العقارات المرفوضة",
+    "admins": "المديرين",
+    "logout": "تسجيل الخروج"
+  },
+  "navbar": {
+    "menu": "القائمة"
+  },
+  "home": {
+    "welcome": "مرحباً",
+    "dashboard": "لوحة التحكم",
+    "overview": "نظرة عامة",
+    "quickActions": "الإجراءات السريعة",
+    "statistics": "الإحصائيات",
+    "recentActivity": "النشاط الأخير"
+  },
+  "dashboard": {
+    "welcome": "مرحباً بك في لوحة التحكم",
+    "subtitle": "إدارة وتنظيم جميع عقاراتك بسهولة",
+    "cards": {
+      "viewUsers": "عرض المستخدمين",
+      "customerRequests": "طلبات العملاء",
+      "requestsList": "قائمة الطلبات",
+      "viewProperties": "عرض العقارات"
+    },
+    "actions": {
+      "viewUsers": "عرض المستخدمين",
+      "viewUsersDesc": "إدارة وعرض جميع المستخدمين في النظام",
+      "customerRequests": "طلبات العملاء",
+      "customerRequestsDesc": "عرض ومتابعة طلبات العملاء المعلقة",
+      "requestsList": "قائمة الطلبات",
+      "requestsListDesc": "عرض جميع الطلبات المقبولة والمكتملة",
+      "viewProperties": "عرض العقارات",
+      "viewPropertiesDesc": "استعراض وإدارة جميع العقارات المتاحة",
+      "rejectedProperties": "العقارات المرفوضة",
+      "rejectedPropertiesDesc": "عرض جميع العقارات المرفوضة"
+    },
+    "stats": {
+      "totalProperties": "إجمالي العقارات",
+      "pendingRequests": "الطلبات المعلقة",
+      "approvedRequests": "الطلبات المقبولة",
+      "rejectedRequests": "الطلبات المرفوضة",
+      "totalUsers": "إجمالي المستخدمين"
+    }
+  },
+  "properties": {
+    "title": "العنوان",
+    "area": "المساحة",
+    "propertyType": "نوع العقار",
+    "listingType": "نوع الإعلان",
+    "descriptionAr": "الوصف بالعربية",
+    "descriptionEn": "الوصف بالإنجليزية",
+    "region": "المنطقة",
+    "city": "المدينة",
+    "neighborhood": "الحي",
+    "streetAr": "الشارع (عربي)",
+    "streetEn": "الشارع (إنجليزي)",
+    "roomsCount": "عدد الغرف",
+    "bathroomsCount": "عدد دورات المياه",
+    "livingroomsCount": "عدد غرف المعيشة",
+    "floorsCount": "عدد الطوابق",
+    "buildingAge": "عمر المبنى",
+    "condition": "حالة العقار",
+    "finishType": "نوع التشطيب",
+    "systemInformation": "معلومات النظام",
+    "status": {
+      "pending": "معلق",
+      "approved": "مقبول",
+      "rejected": "مرفوض"
+    },
+    "tabs": {
+      "all": "الكل",
+      "pending": "معلقة",
+      "approved": "مقبولة",
+      "rejected": "مرفوضة"
+    },
+    "actions": {
+      "view": "عرض",
+      "approve": "موافقة",
+      "reject": "رفض",
+      "delete": "حذف",
+      "approveSuccess": "تم اعتماد العقار بنجاح",
+      "approveError": "حدث خطأ في اعتماد العقار",
+      "rejectSuccess": "تم رفض العقار بنجاح",
+      "rejectError": "حدث خطأ في رفض العقار",
+      "deleteSuccess": "تم حذف العقار بنجاح",
+      "deleteError": "حدث خطأ في حذف العقار",
+      "deleteConfirm": "هل أنت متأكد من حذف هذا العقار؟"
+    },
+    "list": {
+      "title": "إدارة العقارات",
+      "subtitle": "عرض وإدارة جميع طلبات العقارات",
+      "noProperties": "لا توجد عقارات",
+      "noPropertiesDesc": "لم يتم العثور على أي عقارات في هذه الفئة",
+      "errorTitle": "خطأ في تحميل العقارات",
+      "errorMessage": "حدث خطأ أثناء تحميل العقارات. يرجى المحاولة مرة أخرى.",
+      "refreshSuccess": "تم تحديث البيانات بنجاح"
+    },
+    "viewModal": {
+      "generalInfo": "المعلومات العامة",
+      "propertySpecs": "مواصفات العقار",
+      "locationDetails": "تفاصيل الموقع",
+      "coordinates": "الإحداثيات",
+      "propertyId": "رقم العقار",
+      "adminId": "رقم المدير",
+      "adminEmail": "بريد المدير الإلكتروني",
+      "statusId": "رقم الحالة",
+      "createdAt": "تاريخ الإنشاء",
+      "updatedAt": "تاريخ التحديث"
+    },
+    "confirmModal": {
+      "approveTitle": "تأكيد الموافقة",
+      "approveMessage": "هل أنت متأكد من الموافقة على العقار \"{{title}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+      "rejectTitle": "تأكيد الرفض",
+      "rejectMessage": "هل أنت متأكد من رفض العقار \"{{title}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+      "deleteTitle": "تأكيد الحذف",
+      "deleteMessage": "هل أنت متأكد من حذف العقار \"{{title}}\"؟ سيتم حذف العقار نهائياً ولا يمكن استرداده."
+    }
+  },
+  "users": {
+    "title": "المستخدمين",
+    "viewAll": "عرض جميع المستخدمين",
+    "totalUsers": "إجمالي المستخدمين",
+    "activeUsers": "المستخدمين النشطين"
+  },
+  "requests": {
+    "title": "الطلبات",
+    "customer": "طلبات العملاء",
+    "list": "قائمة الطلبات",
+    "pending": "معلقة",
+    "approved": "موافق عليها",
+    "rejected": "مرفوضة"
+  },
+  "common": {
+    "or": "أو",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "view": "عرض",
+    "add": "إضافة",
+    "search": "بحث",
+    "filter": "تصفية",
+    "export": "تصدير",
+    "import": "استيراد",
+    "refresh": "تحديث",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "submit": "إرسال",
+    "reset": "إعادة تعيين",
+    "owner": "المالك",
+    "notSpecified": "غير محدد",
+    "notAssigned": "غير مخصص",
+    "retry": "إعادة المحاولة",
+    "confirm": "تأكيد"
+  },
+  "language": {
+    "arabic": "العربية",
+    "english": "English",
+    "switchLanguage": "تغيير اللغة"
+  },
+  "admins": {
+    "list": {
+      "title": "إدارة المديرين",
+      "subtitle": "عرض وإدارة جميع المديرين في النظام",
+      "noAdmins": "لا يوجد مديرين",
+      "noAdminsDesc": "لم يتم العثور على أي مديرين في النظام",
+      "errorTitle": "خطأ في تحميل المديرين",
+      "errorMessage": "حدث خطأ أثناء تحميل المديرين. يرجى المحاولة مرة أخرى.",
+      "refreshSuccess": "تم تحديث بيانات المديرين بنجاح"
+    },
+    "status": {
+      "active": "مفعل",
+      "inactive": "غير مفعل"
+    },
+    "actions": {
+      "activate": "تفعيل",
+      "deactivate": "إلغاء التفعيل",
+      "toggleSuccess": "تم تغيير حالة المدير بنجاح",
+      "toggleError": "حدث خطأ في تغيير حالة المدير"
+    },
+    "card": {
+      "joinedOn": "انضم في"
+    },
+    "stats": {
+      "totalAdmins": "إجمالي المديرين",
+      "activeAdmins": " مفعلين",
+      "inactiveAdmins": " غير مفعلين"
+    },
+    "confirmModal": {
+      "title": "تأكيد {{action}}",
+      "message": "هل أنت متأكد من {{action}} المدير \"{{name}}\"؟ يمكنك التراجع عن هذا الإجراء لاحقاً."
+    }
+  }
+}
