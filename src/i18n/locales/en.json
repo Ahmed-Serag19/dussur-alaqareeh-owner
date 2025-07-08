@@ -137,7 +137,9 @@
       "adminEmail": "Admin Email",
       "statusId": "Status ID",
       "createdAt": "Created At",
-      "updatedAt": "Updated At"
+      "updatedAt": "Updated At",
+      "address": "Address",
+      "viewOnMap": "View on Map"
     },
     "confirmModal": {
       "approveTitle": "Confirm Approval",

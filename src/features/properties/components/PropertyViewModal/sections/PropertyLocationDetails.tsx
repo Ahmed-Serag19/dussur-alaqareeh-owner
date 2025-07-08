@@ -1,7 +1,11 @@
-import { MapPin } from "lucide-react";
-import type { Property } from "../../../types/property-response.types";
+import { useState } from "react";
+import { MapPin, Map } from "lucide-react";
+import type { Property } from "@/features/properties/types/property-response.types";
 import { useLookupData } from "@/features/properties/hooks/useLookupData";
 import useLanguage from "@/hooks/useLanguage";
+import { Button } from "@/components/ui/button";
+import { MiniMapModal } from "@/features/properties/components/PropertyViewModal/MiniMapModal";
+import { useReverseGeocode } from "../hooks/useReverseGeocode";
 
 interface PropertyLocationDetailsProps {
   property: Property;
@@ -12,7 +16,11 @@ export const PropertyLocationDetails = ({
 }: PropertyLocationDetailsProps) => {
   const { isRTL, t } = useLanguage();
   const { getRegionName, getCityName, getNeighborhoodName } = useLookupData();
-
+  const [mapOpen, setMapOpen] = useState(false);
+  const { data: address, isLoading: addressLoading } = useReverseGeocode(
+    property.latitude,
+    property.longitude
+  );
   return (
     <div className={`space-y-4 ${isRTL ? "text-right" : "text-left"}`}>
       <h3
@@ -23,55 +31,67 @@ export const PropertyLocationDetails = ({
         <MapPin className="h-5 w-5" />
         {t("properties.viewModal.locationDetails")}
       </h3>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-500">
+          <label className="text-sm font-medium text-muted-foreground">
             {t("properties.region")}
           </label>
-          <p className="text-gray-900">
-            {getRegionName(property.regionId) || t("common.notSpecified")}
-          </p>
+          <p>{getRegionName(property.regionId) || t("common.notSpecified")}</p>
         </div>
+
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-500">
+          <label className="text-sm font-medium text-muted-foreground">
             {t("properties.city")}
           </label>
-          <p className="text-gray-900">
-            {getCityName(property.cityId) || t("common.notSpecified")}
-          </p>
+          <p>{getCityName(property.cityId) || t("common.notSpecified")}</p>
         </div>
+
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-500">
+          <label className="text-sm font-medium text-muted-foreground">
             {t("properties.neighborhood")}
           </label>
-          <p className="text-gray-900">
+          <p>
             {getNeighborhoodName(property.neighborhoodId) ||
               t("common.notSpecified")}
           </p>
         </div>
+
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-500">
+          <label className="text-sm font-medium text-muted-foreground">
             {t("properties.streetAr")}
           </label>
-          <p className="text-gray-900">
-            {property.streetAr || t("common.notSpecified")}
-          </p>
+          <p>{property.streetAr || t("common.notSpecified")}</p>
         </div>
+
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-500">
+          <label className="text-sm font-medium text-muted-foreground">
             {t("properties.streetEn")}
           </label>
-          <p className="text-gray-900">
-            {property.streetEn || t("common.notSpecified")}
-          </p>
+          <p>{property.streetEn || t("common.notSpecified")}</p>
         </div>
+
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-gray-500">
+          <label className="text-sm font-medium text-muted-foreground">
             {t("properties.viewModal.coordinates")}
           </label>
-          <p className="text-gray-900 font-mono text-sm">
-            {property.latitude.toFixed(6)}, {property.longitude.toFixed(6)}
-          </p>
+          <div className="flex items-center justify-between gap-2">
+            <p className="max-w-md">{address} </p>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setMapOpen(true)}
+            >
+              <Map className="w-4 h-4 mr-1" />
+              {t("properties.viewModal.viewOnMap")}
+            </Button>
+          </div>
+          <MiniMapModal
+            isOpen={mapOpen}
+            onClose={() => setMapOpen(false)}
+            lat={property.latitude}
+            lng={property.longitude}
+          />
         </div>
       </div>
     </div>
