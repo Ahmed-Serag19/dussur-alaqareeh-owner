@@ -5,7 +5,6 @@ import { PropertyModalHeader } from "./PropertyModalHeader";
 import { PropertyModalContent } from "./PropertyModalContent";
 import { PropertyModalActions } from "./PropertyModalActions";
 import { usePropertyModalActions } from "./hooks/usePropertyModalActions";
-import useLanguage from "@/hooks/useLanguage";
 
 interface PropertyViewModalProps {
   property: Property | null;
@@ -30,7 +29,6 @@ export const PropertyViewModal = ({
   isRejecting,
   isDeleting,
 }: PropertyViewModalProps) => {
-  const { isRTL } = useLanguage();
   const {
     confirmModal,
     handleApproveClick,

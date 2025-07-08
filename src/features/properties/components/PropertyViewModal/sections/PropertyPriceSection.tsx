@@ -13,7 +13,7 @@ export const PropertyPriceSection = ({ price }: PropertyPriceSectionProps) => {
 
   return (
     <div className="text-center py-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl">
-      <div className="text-4xl font-bold text-green-600">
+      <div className="text-4xl font-bold text-stone-800">
         {formatPrice(price)} {isRTL ? "ريال سعودي" : "SAR"}
       </div>
     </div>

@@ -12,7 +12,7 @@ export const PropertyModalHeader = ({
   property,
   onClose,
 }: PropertyModalHeaderProps) => {
-  const { isRTL, t } = useLanguage();
+  const { isRTL } = useLanguage();
 
   return (
     <div className="sticky top-0 bg-white border-b border-gray-200 p-6 rounded-t-2xl">

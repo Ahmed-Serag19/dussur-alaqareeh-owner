@@ -32,6 +32,7 @@ export interface Property {
   ownerId?: number;
   createdBy?: number;
   adminEmail?: string | null;
+  features?: [{ id: number; nameAr: string; nameEn: string }];
 }
 
 export interface PropertyCounts {

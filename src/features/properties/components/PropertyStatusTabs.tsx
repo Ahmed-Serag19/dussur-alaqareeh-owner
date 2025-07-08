@@ -23,7 +23,11 @@ export const PropertyStatusTabs = ({
   const { t, isRTL } = useLanguage();
 
   const tabs = [
-    { key: "ALL", label: t("properties.tabs.all"), count: counts.all },
+    {
+      key: "ALL",
+      label: t("properties.tabs.all"),
+      count: counts.pending + counts.approved + counts.rejected,
+    },
     {
       key: "PENDING",
       label: t("properties.tabs.pending"),

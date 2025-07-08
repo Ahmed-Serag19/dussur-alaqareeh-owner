@@ -93,6 +93,7 @@
     "condition": "حالة العقار",
     "finishType": "نوع التشطيب",
     "systemInformation": "معلومات النظام",
+    "featuresTitle": "مميزات العقار",
     "status": {
       "pending": "معلق",
       "approved": "مقبول",
@@ -109,8 +110,8 @@
       "approve": "موافقة",
       "reject": "رفض",
       "delete": "حذف",
-      "approveSuccess": "تم اعتماد العقار بنجاح",
-      "approveError": "حدث خطأ في اعتماد العقار",
+      "approveSuccess": "تم قبول العقار بنجاح",
+      "approveError": "حدث خطأ في قبول العقار",
       "rejectSuccess": "تم رفض العقار بنجاح",
       "rejectError": "حدث خطأ في رفض العقار",
       "deleteSuccess": "تم حذف العقار بنجاح",

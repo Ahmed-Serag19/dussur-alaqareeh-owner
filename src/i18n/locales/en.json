@@ -93,6 +93,7 @@
     "condition": "Condition",
     "finishType": "Finish Type",
     "systemInformation": "System Information",
+    "featuresTitle": "Porperty Features",
     "status": {
       "pending": "Pending",
       "approved": "Approved",

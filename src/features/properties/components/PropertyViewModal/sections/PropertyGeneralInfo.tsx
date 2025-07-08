@@ -18,7 +18,7 @@ export const PropertyGeneralInfo = ({ property }: PropertyGeneralInfoProps) => {
   } = useLookupData();
 
   return (
-    <div className="space-y-4">
+    <div className={`space-y-4 ${isRTL ? "text-right" : "text-left"}`}>
       <h3
         className={`text-lg font-semibold flex items-center gap-2 ${
           isRTL ? "justify-end" : ""
