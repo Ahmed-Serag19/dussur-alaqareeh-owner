@@ -8,3 +8,9 @@ export const getAdmins = () => {
 export const toggleAdminStatus = (id: number) => {
   return axiosInstance.put(`/owner/property-requests/Toggel-User-Status/${id}`);
 };
+
+export const deleteAdmin = (id: number) => {
+  return axiosInstance.delete(
+    `/owner/property-requests/Delete-Admin-User/${id}`
+  );
+};

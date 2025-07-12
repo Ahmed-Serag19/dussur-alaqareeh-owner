@@ -214,8 +214,10 @@
     "actions": {
       "activate": "تفعيل",
       "deactivate": "إلغاء التفعيل",
+      "delete": "حذف",
       "toggleSuccess": "تم تغيير حالة المدير بنجاح",
-      "toggleError": "حدث خطأ في تغيير حالة المدير"
+      "toggleError": "حدث خطأ في تغيير حالة المدير",
+      "deleteSuccess": "تم حذف الأدمن بنجاح"
     },
     "card": {
       "joinedOn": "انضم في"
@@ -225,9 +227,16 @@
       "activeAdmins": " مفعلين",
       "inactiveAdmins": " غير مفعلين"
     },
+    "tabs": {
+      "all": "الكل",
+      "active": "مفعل",
+      "inactive": "غير مفعل"
+    },
     "confirmModal": {
-      "title": "تأكيد {{action}}",
-      "message": "هل أنت متأكد من {{action}} المدير \"{{name}}\"؟ يمكنك التراجع عن هذا الإجراء لاحقاً."
+      "toggleTitle": "تأكيد {{action}}",
+      "toggleMessage": "هل أنت متأكد أنك تريد {{action}} الأدمن  .",
+      "deleteTitle": "حذف الأدمن",
+      "deleteMessage": "هل أنت متأكد من حذف الأدمن \"{{name}}\"؟ ."
     }
   }
 }

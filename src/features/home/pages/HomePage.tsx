@@ -15,6 +15,7 @@ import {
   getOwnerPropertiesApproved,
   getOwnerPropertiesRejected,
 } from "@/features/properties/api/properties.api";
+import { useAdminsData } from "@/features/admins/hooks/useAdminsData";
 
 const HomePage = () => {
   const { isRTL, t } = useLanguage();
@@ -111,6 +112,34 @@ const HomePage = () => {
     },
   ];
 
+  const { getCounts: getAdminCounts, isLoading: isLoadingAdmins } =
+    useAdminsData();
+  const adminCounts = getAdminCounts();
+
+  const adminStats = [
+    {
+      label: t("admins.stats.totalAdmins"),
+      value: isLoadingAdmins ? "..." : adminCounts.all.toString(),
+      icon: Users,
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+    },
+    {
+      label: t("admins.stats.activeAdmins"),
+      value: isLoadingAdmins ? "..." : adminCounts.active.toString(),
+      icon: TrendingUp,
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+    },
+    {
+      label: t("admins.stats.inactiveAdmins"),
+      value: isLoadingAdmins ? "..." : adminCounts.inactive.toString(),
+      icon: Clock,
+      color: "text-orange-600",
+      bgColor: "bg-orange-50",
+    },
+  ];
+
   return (
     <div className="space-y-10 px-4 sm:px-6 lg:px-8 py-8">
       {/* Welcome Header */}
@@ -129,6 +158,25 @@ const HomePage = () => {
           <div
             key={index}
             className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
+          >
+            <div className="flex items-center gap-4">
+              <div className={`p-3 ${stat.bgColor} rounded-xl`}>
+                <stat.icon className={`h-6 w-6 ${stat.color}`} />
+              </div>
+              <div className={isRTL ? "text-right flex-1" : "text-left flex-1"}>
+                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-gray-600 text-sm font-medium">
+                  {stat.label}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+        {/* Admin Stats */}
+        {adminStats.map((stat, index) => (
+          <div
+            key={"admin-" + index}
+            className="bg-white rounded-2xl p-6 my-10 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
           >
             <div className="flex items-center gap-4">
               <div className={`p-3 ${stat.bgColor} rounded-xl`}>

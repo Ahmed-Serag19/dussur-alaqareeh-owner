@@ -1,7 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { getAdmins, toggleAdminStatus } from "@/features/admins/api/admin.api";
-import type { Admin, AdminCounts } from "../types/admin-response.types";
+import { getAdmins, toggleAdminStatus, deleteAdmin } from "../api/admin.api";
+import type {
+  Admin,
+  AdminCounts,
+  AdminStatus,
+} from "../types/admin-response.types";
 import useLanguage from "@/hooks/useLanguage";
 
 export const useAdminsData = () => {
@@ -17,8 +21,8 @@ export const useAdminsData = () => {
   } = useQuery({
     queryKey: ["admins"],
     queryFn: () => getAdmins().then((res) => res.data),
-    staleTime: 30 * 1000, // 30 seconds
-    refetchInterval: 30 * 1000, // Auto-refresh every 30 seconds
+    staleTime: 60 * 1000, // 30 seconds
+    refetchInterval: 60 * 1000, // Auto-refresh every 30 seconds
   });
 
   // Filter only admins (role.name === "Admin")
@@ -69,10 +73,40 @@ export const useAdminsData = () => {
     },
   });
 
+  // Delete admin mutation
+  const deleteAdminMutation = useMutation({
+    mutationFn: deleteAdmin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admins"] });
+      toast.success(t("admins.actions.deleteSuccess"));
+    },
+    onError: (error: any) => {
+      console.error("Failed to delete admin:", error);
+      const errorMessage =
+        error?.response?.data?.message || t("admins.actions.deleteError");
+      toast.error(errorMessage);
+    },
+    onSettled: () => {
+      queryClient.refetchQueries({ queryKey: ["admins"] });
+    },
+  });
+
+  const getAdminsByStatus = (status: AdminStatus): Admin[] => {
+    switch (status) {
+      case "ACTIVE":
+        return admins.filter((admin) => admin.active);
+      case "INACTIVE":
+        return admins.filter((admin) => !admin.active);
+      case "ALL":
+      default:
+        return admins;
+    }
+  };
+
   const getCounts = (): AdminCounts => {
     const activeAdmins = admins.filter((admin) => admin.active);
     return {
-      total: admins.length,
+      all: admins.length,
       active: activeAdmins.length,
       inactive: admins.length - activeAdmins.length,
     };
@@ -83,8 +117,11 @@ export const useAdminsData = () => {
     isLoading,
     error,
     refetch,
+    getAdminsByStatus,
     getCounts,
     toggleAdminStatus: toggleStatusMutation.mutate,
+    deleteAdmin: deleteAdminMutation.mutate,
     isTogglingStatus: toggleStatusMutation.isPending,
+    isDeletingAdmin: deleteAdminMutation.isPending,
   };
 };

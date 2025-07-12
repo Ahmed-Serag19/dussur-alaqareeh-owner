@@ -17,7 +17,7 @@ export const PropertyLocationDetails = ({
   const { isRTL, t } = useLanguage();
   const { getRegionName, getCityName, getNeighborhoodName } = useLookupData();
   const [mapOpen, setMapOpen] = useState(false);
-  const { data: address, isLoading: addressLoading } = useReverseGeocode(
+  const { data: address } = useReverseGeocode(
     property.latitude,
     property.longitude
   );

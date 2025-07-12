@@ -15,7 +15,9 @@ export interface Admin {
 }
 
 export interface AdminCounts {
-  total: number;
+  all: number;
   active: number;
   inactive: number;
 }
+
+export type AdminStatus = "ALL" | "ACTIVE" | "INACTIVE";

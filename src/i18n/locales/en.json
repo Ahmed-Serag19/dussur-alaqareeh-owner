@@ -214,8 +214,10 @@
     "actions": {
       "activate": "Activate",
       "deactivate": "Deactivate",
+      "delete": "Delete",
       "toggleSuccess": "Admin status changed successfully",
-      "toggleError": "Error changing admin status"
+      "toggleError": "Error changing admin status",
+      "deleteSuccess": "Admin deleted successfully"
     },
     "card": {
       "joinedOn": "Joined on"
@@ -225,9 +227,16 @@
       "activeAdmins": "Active Admins",
       "inactiveAdmins": "Inactive Admins"
     },
+    "tabs": {
+      "all": "All",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
     "confirmModal": {
-      "title": "Confirm {{action}}",
-      "message": "Are you sure you want to {{action}} admin \"{{name}}\"? You can reverse this action later."
+      "toggleTitle": "Confirm {{action}}",
+      "toggleMessage": "Are you sure you want to {{action}} admin \"{{name}}\"? You can reverse this action later.",
+      "deleteTitle": "Delete Admin",
+      "deleteMessage": "Are you sure you want to delete admin \"{{name}}\"? This action cannot be undone."
     }
   }
 }

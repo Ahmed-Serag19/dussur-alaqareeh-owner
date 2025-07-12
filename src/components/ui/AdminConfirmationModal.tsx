@@ -2,27 +2,25 @@ import { X, AlertTriangle, CheckCircle, XCircle, Trash2 } from "lucide-react";
 import { useEffect } from "react";
 import useLanguage from "@/hooks/useLanguage";
 
-type ConfirmationType = "approve" | "reject" | "delete";
+type AdminConfirmationType = "activate" | "deactivate" | "delete";
 
-interface ConfirmationModalProps {
+interface AdminConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  type: ConfirmationType;
-  title: string;
-  message: string;
+  type: AdminConfirmationType;
+  adminName: string;
   isLoading?: boolean;
 }
 
-export const ConfirmationModal = ({
+export const AdminConfirmationModal = ({
   isOpen,
   onClose,
   onConfirm,
   type,
-  title,
-  message,
+  adminName,
   isLoading = false,
-}: ConfirmationModalProps) => {
+}: AdminConfirmationModalProps) => {
   const { t, isRTL } = useLanguage();
 
   useEffect(() => {
@@ -31,7 +29,6 @@ export const ConfirmationModal = ({
     } else {
       document.body.style.overflow = "unset";
     }
-
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -39,23 +36,37 @@ export const ConfirmationModal = ({
 
   if (!isOpen) return null;
 
-  const getTypeConfig = (type: ConfirmationType) => {
+  const getTypeConfig = (type: AdminConfirmationType) => {
     switch (type) {
-      case "approve":
+      case "activate":
         return {
           icon: CheckCircle,
           iconColor: "text-green-600",
           bgColor: "bg-green-50",
           confirmButtonColor: "bg-green-600 hover:bg-green-700",
-          confirmText: t("properties.actions.approve"),
+          confirmText: t("admins.actions.activate"),
+          title: t("admins.confirmModal.toggleTitle", {
+            action: t("admins.actions.activate"),
+          }),
+          message: t("admins.confirmModal.toggleMessage", {
+            action: t("admins.actions.activate").toLowerCase(),
+            name: adminName,
+          }),
         };
-      case "reject":
+      case "deactivate":
         return {
           icon: XCircle,
-          iconColor: "text-red-600",
-          bgColor: "bg-red-50",
-          confirmButtonColor: "bg-red-600 hover:bg-red-700",
-          confirmText: t("properties.actions.reject"),
+          iconColor: "text-orange-600",
+          bgColor: "bg-orange-50",
+          confirmButtonColor: "bg-orange-600 hover:bg-orange-700",
+          confirmText: t("admins.actions.deactivate"),
+          title: t("admins.confirmModal.toggleTitle", {
+            action: t("admins.actions.deactivate"),
+          }),
+          message: t("admins.confirmModal.toggleMessage", {
+            action: t("admins.actions.deactivate").toLowerCase(),
+            name: adminName,
+          }),
         };
       case "delete":
         return {
@@ -63,7 +74,9 @@ export const ConfirmationModal = ({
           iconColor: "text-red-600",
           bgColor: "bg-red-50",
           confirmButtonColor: "bg-red-600 hover:bg-red-700",
-          confirmText: t("properties.actions.delete"),
+          confirmText: t("admins.actions.delete"),
+          title: t("admins.confirmModal.deleteTitle"),
+          message: t("admins.confirmModal.deleteMessage", { name: adminName }),
         };
       default:
         return {
@@ -72,6 +85,8 @@ export const ConfirmationModal = ({
           bgColor: "bg-yellow-50",
           confirmButtonColor: "bg-blue-600 hover:bg-blue-700",
           confirmText: t("common.confirm"),
+          title: "",
+          message: "",
         };
     }
   };
@@ -104,7 +119,7 @@ export const ConfirmationModal = ({
                     <IconComponent className={`h-6 w-6 ${config.iconColor}`} />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900">
-                    {title}
+                    {config.title}
                   </h3>
                 </div>
               </div>
@@ -125,7 +140,7 @@ export const ConfirmationModal = ({
                 isRTL ? "text-right" : "text-left"
               }`}
             >
-              {message}
+              {config.message}
             </p>
           </div>
 
