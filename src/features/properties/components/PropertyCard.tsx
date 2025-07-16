@@ -16,6 +16,7 @@ import { PropertyStatusBadge } from "./PropertyStatusBadge";
 import { ConfirmationModal } from "@/components/ui/ConfirmationModal";
 import { useLookupData } from "../hooks/useLookupData";
 import useLanguage from "@/hooks/useLanguage";
+import { ImageCarousel } from "@/components/ui/ImageCarousel";
 
 interface PropertyCardProps {
   property: Property;
@@ -139,6 +140,12 @@ export const PropertyCard = ({
   return (
     <>
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 overflow-hidden">
+        {/* Image Carousel */}
+        <ImageCarousel
+          images={property.imageUrls || []}
+          altPrefix={property.title}
+          className="w-full"
+        />
         {/* Header */}
         <div className="p-6 pb-4">
           <div
@@ -147,7 +154,7 @@ export const PropertyCard = ({
             }`}
           >
             <div className={`flex-1 ${isRTL ? "text-right" : "text-left"}`}>
-              <h3 className="font-semibold text-lg text-gray-900 line-clamp-1 mb-2">
+              <h3 className="font-semibold text-lg text-gray-900 line-clamp-1 mb-2 z-50">
                 {property.title}
               </h3>
               <div

@@ -15,7 +15,7 @@ export const PropertyModalHeader = ({
   const { isRTL } = useLanguage();
 
   return (
-    <div className="sticky top-0 bg-white border-b border-gray-200 p-6 rounded-t-2xl">
+    <div className="sticky top-0 bg-white border-b border-gray-200 p-6 rounded-t-2xl z-50">
       <div
         className={`flex items-start justify-between ${
           isRTL ? "flex-row-reverse" : ""

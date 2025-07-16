@@ -1,4 +1,4 @@
-import { Home } from "lucide-react";
+import { Home, Bath, Sofa, Layers } from "lucide-react";
 import type { Property } from "../../../types/property-response.types";
 import useLanguage from "@/hooks/useLanguage";
 
@@ -12,13 +12,26 @@ export const PropertySpecifications = ({
   const { isRTL, t } = useLanguage();
 
   const specs = [
-    { label: t("properties.roomsCount"), value: property.roomsCount },
-    { label: t("properties.bathroomsCount"), value: property.bathroomsCount },
+    {
+      label: t("properties.roomsCount"),
+      value: property.roomsCount,
+      icon: Home,
+    },
+    {
+      label: t("properties.bathroomsCount"),
+      value: property.bathroomsCount,
+      icon: Bath,
+    },
     {
       label: t("properties.livingroomsCount"),
       value: property.livingroomsCount,
+      icon: Sofa,
     },
-    { label: t("properties.floorsCount"), value: property.floorsCount },
+    {
+      label: t("properties.floorsCount"),
+      value: property.floorsCount,
+      icon: Layers,
+    },
   ];
 
   return (
@@ -34,7 +47,7 @@ export const PropertySpecifications = ({
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {specs.map((spec, index) => (
           <div key={index} className="text-center p-4 bg-gray-50 rounded-lg">
-            <Home className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+            <spec.icon className="h-8 w-8 mx-auto mb-2 text-blue-600" />
             <div className="text-2xl font-bold text-gray-900">{spec.value}</div>
             <div className="text-sm text-gray-600">{spec.label}</div>
           </div>

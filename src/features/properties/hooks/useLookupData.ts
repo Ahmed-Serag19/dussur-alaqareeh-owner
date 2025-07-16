@@ -39,6 +39,13 @@ export const useLookupData = () => {
   const getFinishingTypeName = (id: number) =>
     getLookupValue(lookupData?.finishingTypes, id);
 
+  const getFeatureById = (id: number): LookupItem | undefined => {
+    if (!lookupData?.propertyFeatures) return undefined;
+    return lookupData.propertyFeatures.find(
+      (feature: LookupItem) => feature.id === id
+    );
+  };
+
   return {
     lookupData,
     isLoading,
@@ -50,5 +57,6 @@ export const useLookupData = () => {
     getListingTypeName,
     getPropertyConditionName,
     getFinishingTypeName,
+    getFeatureById,
   };
 };
