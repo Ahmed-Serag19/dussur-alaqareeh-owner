@@ -30,6 +30,7 @@
     "approvedProperties": "Approved Properties",
     "pendingProperties": "Pending Properties",
     "rejectedProperties": "Rejected Properties",
+    "realOwners": "Real Owners",
     "admins": "Admins",
     "logout": "Logout"
   },
@@ -171,8 +172,10 @@
     "success": "Success",
     "cancel": "Cancel",
     "save": "Save",
+    "saving": "Saving...",
     "edit": "Edit",
     "delete": "Delete",
+    "deleting": "Deleting...",
     "view": "View",
     "add": "Add",
     "search": "Search",
@@ -190,7 +193,9 @@
     "notSpecified": "Not specified",
     "notAssigned": "Not assigned",
     "retry": "Retry",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "clickToUpload": "Click to upload",
+    "orDragAndDrop": "or drag and drop"
   },
   "language": {
     "arabic": "العربية",
@@ -237,6 +242,50 @@
       "toggleMessage": "Are you sure you want to {{action}} admin \"{{name}}\"? You can reverse this action later.",
       "deleteTitle": "Delete Admin",
       "deleteMessage": "Are you sure you want to delete admin \"{{name}}\"? This action cannot be undone."
+    }
+  },
+  "realOwners": {
+    "title": "Real Owners Management",
+    "subtitle": "View and manage all real property owners",
+    "addNew": "Add New Owner",
+    "total": "Total Owners",
+    "active": "Active Owners",
+    "recent": "Recent Owners",
+    "noRealOwners": "No Real Owners",
+    "iban": "IBAN",
+    "createdAt": "Created At",
+    "deleteTitle": "Delete Real Owner",
+    "deleteMessage": "Are you sure you want to delete real owner \"{{name}}\"? This action cannot be undone.",
+    "toast": {
+      "createSuccess": "Real owner created successfully",
+      "createError": "Failed to create real owner",
+      "updateSuccess": "Real owner updated successfully",
+      "updateError": "Failed to update real owner",
+      "deleteSuccess": "Real owner deleted successfully",
+      "deleteError": "Failed to delete real owner"
+    },
+    "form": {
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter full name",
+      "nationalId": "National ID",
+      "nationalIdPlaceholder": "Enter national ID",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter phone number",
+      "accountBank": "Bank Name",
+      "accountBankPlaceholder": "Enter bank name",
+      "iban": "IBAN",
+      "ibanPlaceholder": "Enter IBAN",
+      "ibanImage": "IBAN Image",
+      "ibanImagePlaceholder": "Upload IBAN image",
+      "removeImage": "Remove Image"
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required",
+      "nationalIdRequired": "National ID is required",
+      "phoneNumberRequired": "Phone number is required",
+      "accountBankRequired": "Bank name is required",
+      "ibanRequired": "IBAN is required",
+      "ibanInvalid": "Invalid IBAN format"
     }
   }
 }

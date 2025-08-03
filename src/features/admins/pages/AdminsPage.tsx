@@ -11,7 +11,6 @@ export const AdminsPage = () => {
   const { isRTL, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<AdminStatus>("ALL");
   const {
-    admins,
     isLoading,
     error,
     refetch,

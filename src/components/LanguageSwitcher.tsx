@@ -10,7 +10,7 @@ const LANGUAGES = [
 
 const LanguageSwitcher = () => {
   const { currentLanguage, changeLanguage } = useLanguage();
-  const { value: isOpen, setTrue: open, setFalse: close, toggle } = useToggle();
+  const { value: isOpen, setFalse: close, toggle } = useToggle();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const currentLang =

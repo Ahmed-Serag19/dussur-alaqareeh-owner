@@ -66,27 +66,6 @@ export const AdminCard = ({
     setConfirmModal({ isOpen: false, type: null });
   };
 
-  const getConfirmationContent = () => {
-    if (confirmModal.type === "toggle") {
-      const action = admin.active
-        ? t("admins.actions.deactivate")
-        : t("admins.actions.activate");
-      return {
-        title: t("admins.confirmModal.toggleTitle", { action }),
-        message: t("admins.confirmModal.toggleMessage", {
-          action: action.toLowerCase(),
-          name: admin.name,
-        }),
-        type: admin.active ? ("reject" as const) : ("approve" as const),
-      };
-    } else {
-      return {
-        title: t("admins.confirmModal.deleteTitle"),
-        message: t("admins.confirmModal.deleteMessage", { name: admin.name }),
-        type: "delete" as const,
-      };
-    }
-  };
 
   const isCurrentActionLoading =
     (confirmModal.type === "toggle" && isToggling) ||

@@ -30,6 +30,7 @@
     "approvedProperties": "العقارات المقبولة",
     "pendingProperties": "العقارات المعلقة",
     "rejectedProperties": "العقارات المرفوضة",
+    "realOwners": "ملاك العقارات ",
     "admins": "المديرين",
     "logout": "تسجيل الخروج"
   },
@@ -171,8 +172,10 @@
     "success": "نجح",
     "cancel": "إلغاء",
     "save": "حفظ",
+    "saving": "جاري الحفظ...",
     "edit": "تعديل",
     "delete": "حذف",
+    "deleting": "جاري الحذف...",
     "view": "عرض",
     "add": "إضافة",
     "search": "بحث",
@@ -190,7 +193,9 @@
     "notSpecified": "غير محدد",
     "notAssigned": "غير مخصص",
     "retry": "إعادة المحاولة",
-    "confirm": "تأكيد"
+    "confirm": "تأكيد",
+    "clickToUpload": "انقر للرفع",
+    "orDragAndDrop": "أو اسحب وأفلت"
   },
   "language": {
     "arabic": "العربية",
@@ -237,6 +242,50 @@
       "toggleMessage": "هل أنت متأكد أنك تريد {{action}} الأدمن  .",
       "deleteTitle": "حذف الأدمن",
       "deleteMessage": "هل أنت متأكد من حذف الأدمن \"{{name}}\"؟ ."
+    }
+  },
+  "realOwners": {
+    "title": "إدارة المالكين الحقيقيين",
+    "subtitle": "عرض وإدارة جميع المالكين الحقيقيين للعقارات",
+    "addNew": "إضافة مالك جديد",
+    "total": "إجمالي المالكين",
+    "active": "المالكين النشطين",
+    "recent": "المالكين الجدد",
+    "noRealOwners": "لا يوجد مالكين حقيقيين",
+    "iban": "رقم الحساب البنكي",
+    "createdAt": "تاريخ الإنشاء",
+    "deleteTitle": "حذف المالك الحقيقي",
+    "deleteMessage": "هل أنت متأكد من حذف المالك الحقيقي \"{{name}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+    "toast": {
+      "createSuccess": "تم إنشاء المالك الحقيقي بنجاح",
+      "createError": "فشل في إنشاء المالك الحقيقي",
+      "updateSuccess": "تم تحديث المالك الحقيقي بنجاح",
+      "updateError": "فشل في تحديث المالك الحقيقي",
+      "deleteSuccess": "تم حذف المالك الحقيقي بنجاح",
+      "deleteError": "فشل في حذف المالك الحقيقي"
+    },
+    "form": {
+      "fullName": "الاسم الكامل",
+      "fullNamePlaceholder": "أدخل الاسم الكامل",
+      "nationalId": "الرقم الوطني",
+      "nationalIdPlaceholder": "أدخل الرقم الوطني",
+      "phoneNumber": "رقم الهاتف",
+      "phoneNumberPlaceholder": "أدخل رقم الهاتف",
+      "accountBank": "اسم البنك",
+      "accountBankPlaceholder": "أدخل اسم البنك",
+      "iban": "رقم الحساب البنكي",
+      "ibanPlaceholder": "أدخل رقم الحساب البنكي",
+      "ibanImage": "صورة الحساب البنكي",
+      "ibanImagePlaceholder": "رفع صورة الحساب البنكي",
+      "removeImage": "إزالة الصورة"
+    },
+    "validation": {
+      "fullNameRequired": "الاسم الكامل مطلوب",
+      "nationalIdRequired": "الرقم الوطني مطلوب",
+      "phoneNumberRequired": "رقم الهاتف مطلوب",
+      "accountBankRequired": "اسم البنك مطلوب",
+      "ibanRequired": "رقم الحساب البنكي مطلوب",
+      "ibanInvalid": "صيغة رقم الحساب البنكي غير صحيحة"
     }
   }
 }

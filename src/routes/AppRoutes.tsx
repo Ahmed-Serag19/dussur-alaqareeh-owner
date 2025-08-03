@@ -7,6 +7,7 @@ import HomePage from "@/features/home/pages/HomePage";
 import { useOwner } from "@/context/OwnerContext";
 import { PropertiesPage } from "@/features/properties/pages/PropertiesPage";
 import { AdminsPage } from "@/features/admins/pages/AdminsPage";
+import RealOwnersPage from "@/features/real-owners/pages/RealOwnersPage";
 
 const AppRoutes = () => {
   const { token } = useOwner();
@@ -33,6 +34,7 @@ const AppRoutes = () => {
       >
         <Route index element={<HomePage />} />
         <Route path="properties" element={<PropertiesPage />} />
+        <Route path="real-owners" element={<RealOwnersPage />} />
         <Route path="admins" element={<AdminsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

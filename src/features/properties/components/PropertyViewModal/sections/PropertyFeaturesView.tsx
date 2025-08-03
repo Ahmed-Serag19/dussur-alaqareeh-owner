@@ -10,11 +10,9 @@ interface Props {
 export const PropertyFeaturesView = ({ property }: Props) => {
   const { t, i18n } = useTranslation();
   const { getFeatureById } = useLookupData();
-  let features = property.features ?? [];
-  // If features are IDs, map to objects
-  if (features.length > 0 && typeof features[0] === "number") {
-    features = features.map((id: number) => getFeatureById(id)).filter(Boolean);
-  }
+  const features = ((property.features ?? []) as number[])
+    .map((id) => getFeatureById(id))
+    .filter((f): f is { id: number; nameAr: string; nameEn: string } => !!f);
   const isRTL = i18n.language === "ar";
   if (features.length === 0) return null;
 

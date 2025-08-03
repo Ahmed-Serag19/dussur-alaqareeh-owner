@@ -1,6 +1,6 @@
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Users, FileText, List, Building2, LogOut, Home } from "lucide-react";
+import { Users, Building2, LogOut, Home, Building } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import MainLayoutLogo from "@/assets/images/main-layout-logo.png";
 import { useSidebar } from "@/context/SidebarContext";
@@ -27,7 +27,11 @@ const Sidebar = () => {
       href: "/properties",
       icon: Building2,
     },
-
+    {
+      name: t("sidebar.realOwners"),
+      href: "/real-owners",
+      icon: Building,
+    },
     {
       name: t("sidebar.admins"),
       href: "/admins",
