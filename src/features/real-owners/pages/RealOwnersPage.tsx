@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Plus, Users, X, Building, Clock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Plus, Users, X, Clock, Search } from "lucide-react";
 import { RealOwnerList } from "../components/RealOwnerList";
 import { RealOwnerModal } from "../components/RealOwnerModal";
 import { useRealOwnersData } from "../hooks/useRealOwnersData";
@@ -8,6 +9,7 @@ import useLanguage from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
 
 const RealOwnersPage = () => {
+  const navigate = useNavigate();
   const { isRTL, t } = useLanguage();
   const {
     realOwners,
@@ -24,7 +26,7 @@ const RealOwnersPage = () => {
     null
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Helper function to display field value or "Not available" for "string"
   const displayValue = (value: string | null | undefined) => {
@@ -35,8 +37,7 @@ const RealOwnersPage = () => {
   };
 
   const handleView = (realOwner: RealOwner) => {
-    setSelectedRealOwner(realOwner);
-    setIsViewModalOpen(true);
+    navigate(`/real-owners/${realOwner.id}/properties`);
   };
 
   const handleEdit = (realOwner: RealOwner) => {
@@ -70,10 +71,11 @@ const RealOwnersPage = () => {
     setSelectedRealOwner(null);
   };
 
-  const handleViewModalClose = () => {
-    setIsViewModalOpen(false);
-    setSelectedRealOwner(null);
-  };
+  const filteredRealOwners = realOwners.filter(
+    (realOwner) =>
+      realOwner.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      realOwner.phoneNumber?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
@@ -102,7 +104,7 @@ const RealOwnersPage = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 [400px]:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl justify-center items-center mx-auto">
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-100 rounded-lg">
@@ -135,9 +137,25 @@ const RealOwnersPage = () => {
         </div>
       </div>
 
+      {/* Search */}
+      <div className="flex justify-center">
+        <div className="max-w-md w-full">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder={t("common.search")}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Real Owners List */}
       <RealOwnerList
-        realOwners={realOwners}
+        realOwners={filteredRealOwners}
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
@@ -153,90 +171,6 @@ const RealOwnersPage = () => {
         realOwner={selectedRealOwner}
         isLoading={isCreating || isUpdating}
       />
-
-      {/* View Modal - You can create a separate view modal component if needed */}
-      {isViewModalOpen && selectedRealOwner && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex min-h-screen items-center justify-center p-4">
-            <div
-              className="fixed inset-0 bg-black/60 transition-opacity"
-              onClick={handleViewModalClose}
-            />
-            <div className="relative bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  {t("common.view")} {t("realOwners.title")}
-                </h2>
-                <button
-                  onClick={handleViewModalClose}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t("realOwners.form.fullName")}
-                    </label>
-                    <p className="text-gray-900">
-                      {displayValue(selectedRealOwner.fullName)}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t("realOwners.form.nationalId")}
-                    </label>
-                    <p className="text-gray-900">
-                      {displayValue(selectedRealOwner.nationalId)}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t("realOwners.form.phoneNumber")}
-                    </label>
-                    <p className="text-gray-900">
-                      {displayValue(selectedRealOwner.phoneNumber)}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t("realOwners.form.accountBank")}
-                    </label>
-                    <p className="text-gray-900">
-                      {displayValue(selectedRealOwner.accountBank)}
-                    </p>
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      {t("realOwners.form.iban")}
-                    </label>
-                    <p className="text-gray-900">
-                      {displayValue(selectedRealOwner.iban)}
-                    </p>
-                  </div>
-                  {selectedRealOwner.ibanImageUrl && (
-                    <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        {t("realOwners.form.ibanImage")}
-                      </label>
-                      <img
-                        src={selectedRealOwner.ibanImageUrl}
-                        alt="IBAN"
-                        className="max-w-full h-48 object-contain border rounded-lg shadow-sm"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

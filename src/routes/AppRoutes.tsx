@@ -8,6 +8,7 @@ import { useOwner } from "@/context/OwnerContext";
 import { PropertiesPage } from "@/features/properties/pages/PropertiesPage";
 import { AdminsPage } from "@/features/admins/pages/AdminsPage";
 import RealOwnersPage from "@/features/real-owners/pages/RealOwnersPage";
+import RealOwnerPropertiesPage from "@/features/real-owners/pages/RealOwnerPropertiesPage";
 
 const AppRoutes = () => {
   const { token } = useOwner();
@@ -35,6 +36,10 @@ const AppRoutes = () => {
         <Route index element={<HomePage />} />
         <Route path="properties" element={<PropertiesPage />} />
         <Route path="real-owners" element={<RealOwnersPage />} />
+        <Route
+          path="real-owners/:realOwnerId/properties"
+          element={<RealOwnerPropertiesPage />}
+        />
         <Route path="admins" element={<AdminsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

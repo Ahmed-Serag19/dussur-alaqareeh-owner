@@ -29,3 +29,46 @@ export interface UpdateRealOwnerRequest {
   iban: string;
   ibanImageUrl?: string;
 }
+
+export interface RealOwnerProperty {
+  id: number;
+  title: string;
+  description: string;
+  regionId: number;
+  cityId: number;
+  neighborhoodId: number;
+  listingTypeId: number;
+  subUnits: RealOwnerPropertySubUnit[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RealOwnerPropertySubUnit {
+  id: number;
+  propertyTypeId: number;
+  paymentType: string;
+  customPaymentDays: number;
+  paymentValue: number;
+  price: number;
+  paidAmount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreatePropertyForRealOwnerRequest {
+  title: string;
+  description: string;
+  realOwnerId: number;
+  regionId: number;
+  cityId: number;
+  neighborhoodId: number;
+  listingTypeId: number;
+  subUnits: Array<{
+    propertyTypeId: number;
+    paymentType: string;
+    customPaymentDays: number;
+    paymentValue: number;
+    price: number;
+    paidAmount: number;
+  }>;
+}
