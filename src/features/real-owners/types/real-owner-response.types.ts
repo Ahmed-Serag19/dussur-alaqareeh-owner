@@ -27,7 +27,8 @@ export interface UpdateRealOwnerRequest {
   phoneNumber: string;
   accountBank: string;
   iban: string;
-  ibanImageUrl?: string;
+  ibanImageUrl?: string | null;
+  ibanImage?: File;
 }
 
 export interface RealOwnerProperty {
@@ -47,10 +48,14 @@ export interface RealOwnerPropertySubUnit {
   id: number;
   propertyTypeId: number;
   paymentType: string;
-  customPaymentDays: number;
+  customPaymentDays: number | null;
   paymentValue: number;
   price: number;
   paidAmount: number;
+  fullName: string | null;
+  phoneNumber: string | null;
+  nationalId: string | null;
+  isPaid: boolean | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -66,7 +71,7 @@ export interface CreatePropertyForRealOwnerRequest {
   subUnits: Array<{
     propertyTypeId: number;
     paymentType: string;
-    customPaymentDays: number;
+    customPaymentDays: number | null;
     paymentValue: number;
     price: number;
     paidAmount: number;

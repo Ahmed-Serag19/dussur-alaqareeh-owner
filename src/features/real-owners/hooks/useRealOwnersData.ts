@@ -25,15 +25,15 @@ export const useRealOwnersData = () => {
   } = useQuery({
     queryKey: ["real-owners"],
     queryFn: () => getRealOwners().then((res) => res.data),
-    staleTime: 0, // Always consider data stale to ensure fresh data
+    staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+    gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
   });
 
   const createRealOwnerMutation = useMutation({
     mutationFn: createRealOwner,
     onSuccess: () => {
-      // Invalidate and refetch to ensure fresh data
+      // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: ["real-owners"] });
-      refetch();
       toast.success(t("realOwners.toast.createSuccess"));
     },
     onError: (error: any) => {
@@ -49,9 +49,8 @@ export const useRealOwnersData = () => {
     mutationFn: ({ id, data }: { id: number; data: UpdateRealOwnerRequest }) =>
       updateRealOwner(id, data),
     onSuccess: () => {
-      // Invalidate and refetch to ensure fresh data
+      // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: ["real-owners"] });
-      refetch();
       toast.success(t("realOwners.toast.updateSuccess"));
     },
     onError: (error: any) => {
@@ -66,9 +65,8 @@ export const useRealOwnersData = () => {
   const deleteRealOwnerMutation = useMutation({
     mutationFn: deleteRealOwner,
     onSuccess: () => {
-      // Invalidate and refetch to ensure fresh data
+      // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: ["real-owners"] });
-      refetch();
       toast.success(t("realOwners.toast.deleteSuccess"));
     },
     onError: (error: any) => {
@@ -85,6 +83,8 @@ export const useRealOwnersData = () => {
       queryKey: ["real-owner", id],
       queryFn: () => getRealOwnerById(id).then((res) => res.data),
       enabled: !!id,
+      staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+      gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
     });
   };
 

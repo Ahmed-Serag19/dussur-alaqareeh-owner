@@ -137,9 +137,14 @@ export const RealOwnerModal = ({
         accountBank: realOwner.accountBank,
         iban: realOwner.iban,
       });
-      if (realOwner.ibanImageUrl) {
+      // Set the existing image URL as preview
+      if (realOwner.ibanImageUrl && realOwner.ibanImageUrl !== "string") {
         setPreviewUrl(realOwner.ibanImageUrl);
+      } else {
+        setPreviewUrl(null);
       }
+      // Clear any previously selected new image
+      setIbanImage(null);
     } else {
       handleReset();
     }
@@ -171,7 +176,8 @@ export const RealOwnerModal = ({
       // Update existing real owner
       const updateData: UpdateRealOwnerRequest = {
         ...data,
-        ibanImageUrl: realOwner.ibanImageUrl,
+        ibanImageUrl: ibanImage ? null : realOwner.ibanImageUrl, // Send null if new image selected
+        ibanImage: ibanImage || undefined, // Send the image if selected
       };
       onSubmit(updateData);
     } else {
@@ -335,12 +341,17 @@ export const RealOwnerModal = ({
                         <Upload className="w-8 h-8 mb-4 text-gray-500" />
                         <p className="mb-2 text-sm text-gray-500">
                           <span className="font-semibold">
-                            {t("common.clickToUpload")}
+                            {realOwner
+                              ? t("common.clickToChange")
+                              : t("common.clickToUpload")}
                           </span>{" "}
                           {t("common.orDragAndDrop")}
                         </p>
                         <p className="text-xs text-gray-500">
-                          {t("realOwners.form.ibanImagePlaceholder")}
+                          {realOwner
+                            ? t("realOwners.form.ibanImageChangePlaceholder") ||
+                              "Click to change the IBAN image"
+                            : t("realOwners.form.ibanImagePlaceholder")}
                         </p>
                       </div>
                       <input

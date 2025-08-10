@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Users, X, Clock, Search } from "lucide-react";
+import { Plus, Users, Clock, Search } from "lucide-react";
 import { RealOwnerList } from "../components/RealOwnerList";
 import { RealOwnerModal } from "../components/RealOwnerModal";
 import { useRealOwnersData } from "../hooks/useRealOwnersData";
-import type { RealOwner } from "../types/real-owner-response.types";
+import type {
+  RealOwner,
+  CreateRealOwnerRequest,
+  UpdateRealOwnerRequest,
+} from "../types/real-owner-response.types";
 import useLanguage from "@/hooks/useLanguage";
 import { Button } from "@/components/ui/button";
 
@@ -28,14 +32,6 @@ const RealOwnersPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Helper function to display field value or "Not available" for "string"
-  const displayValue = (value: string | null | undefined) => {
-    if (!value || value === "string") {
-      return isRTL ? "غير متاح" : "Not available";
-    }
-    return value;
-  };
-
   const handleView = (realOwner: RealOwner) => {
     navigate(`/real-owners/${realOwner.id}/properties`);
   };
@@ -54,13 +50,18 @@ const RealOwnersPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleModalSubmit = (data: any) => {
+  const handleModalSubmit = (
+    data: CreateRealOwnerRequest | UpdateRealOwnerRequest
+  ) => {
     if (selectedRealOwner) {
       // Update
-      updateRealOwner({ id: selectedRealOwner.id, data });
+      updateRealOwner({
+        id: selectedRealOwner.id,
+        data: data as UpdateRealOwnerRequest,
+      });
     } else {
       // Create
-      createRealOwner(data);
+      createRealOwner(data as CreateRealOwnerRequest);
     }
     setIsModalOpen(false);
     setSelectedRealOwner(null);

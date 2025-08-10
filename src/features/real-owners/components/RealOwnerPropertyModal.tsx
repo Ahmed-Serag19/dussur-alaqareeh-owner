@@ -237,6 +237,58 @@ export const RealOwnerPropertyModal = ({
                           {t("common.currency")}
                         </span>
                       </div>
+                      <div>
+                        <span className="text-gray-600">
+                          {t("properties.paymentValue")}:
+                        </span>
+                        <span className="ml-2 text-gray-900">
+                          {unit.paymentValue.toLocaleString()}{" "}
+                          {t("common.currency")}
+                        </span>
+                      </div>
+
+                      {unit.fullName && (
+                        <div>
+                          <span className="text-gray-600">
+                            {t("properties.fullName")}:
+                          </span>
+                          <span className="ml-2 text-gray-900">
+                            {unit.fullName}
+                          </span>
+                        </div>
+                      )}
+                      {unit.phoneNumber && (
+                        <div>
+                          <span className="text-gray-600">
+                            {t("properties.phoneNumber")}:
+                          </span>
+                          <span className="ml-2 text-gray-900">
+                            {unit.phoneNumber}
+                          </span>
+                        </div>
+                      )}
+                      {unit.nationalId && (
+                        <div>
+                          <span className="text-gray-600">
+                            {t("properties.nationalId")}:
+                          </span>
+                          <span className="ml-2 text-gray-900">
+                            {unit.nationalId}
+                          </span>
+                        </div>
+                      )}
+                      <div>
+                        <span className="text-gray-600">
+                          {t("properties.isPaid")}:
+                        </span>
+                        <span
+                          className={`ml-2 font-medium ${
+                            unit.isPaid ? "text-green-600" : "text-red-600"
+                          }`}
+                        >
+                          {unit.isPaid ? t("common.yes") : t("common.no")}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}

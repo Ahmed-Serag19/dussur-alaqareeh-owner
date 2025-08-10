@@ -28,9 +28,11 @@ const RealOwnerPropertiesPage = () => {
     error,
     createProperty,
     updateProperty,
+    deleteProperty,
     isCreating,
     isUpdating,
-  } = useRealOwnerProperties(parseInt(realOwnerId || "0"));
+    isDeleting,
+  } = useRealOwnerProperties(realOwnerId ? parseInt(realOwnerId) : undefined);
   const { realOwners } = useRealOwnersData();
 
   const realOwner = realOwners.find(
@@ -54,6 +56,14 @@ const RealOwnerPropertiesPage = () => {
   const handleViewProperty = (property: RealOwnerProperty) => {
     setSelectedProperty(property);
     setIsModalOpen(true);
+  };
+
+  const handleDeleteProperty = async (propertyId: number) => {
+    try {
+      await deleteProperty(propertyId);
+    } catch (error) {
+      console.error("Failed to delete property:", error);
+    }
   };
 
   const handleCloseModal = () => {
@@ -196,6 +206,8 @@ const RealOwnerPropertiesPage = () => {
               property={property}
               onView={handleViewProperty}
               onEdit={handleEditProperty}
+              onDelete={handleDeleteProperty}
+              isDeleting={isDeleting}
             />
           ))}
         </div>

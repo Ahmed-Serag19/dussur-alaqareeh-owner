@@ -1,34 +1,50 @@
 import { useState, useEffect } from "react";
 import {
   getRealOwnerProperties,
+  getRealOwnerPropertyById,
   createPropertyForRealOwner,
   updatePropertyForRealOwner,
+  deletePropertyForRealOwner,
 } from "../api/real-owner.api";
 import type {
   RealOwnerProperty,
   CreatePropertyForRealOwnerRequest,
 } from "../types/real-owner-response.types";
 
-export const useRealOwnerProperties = (realOwnerId: number) => {
+export const useRealOwnerProperties = (realOwnerId?: number) => {
   const [properties, setProperties] = useState<RealOwnerProperty[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const fetchProperties = async () => {
-    if (!realOwnerId) return;
-
     setIsLoading(true);
     setError(null);
 
     try {
-      const data = await getRealOwnerProperties(realOwnerId);
-      setProperties(data);
+      const response = await getRealOwnerProperties(realOwnerId);
+      setProperties(response.data);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to fetch properties"
       );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchPropertyById = async (id: number) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await getRealOwnerPropertyById(id);
+      return response.data;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch property");
+      throw err;
     } finally {
       setIsLoading(false);
     }
@@ -82,6 +98,25 @@ export const useRealOwnerProperties = (realOwnerId: number) => {
     }
   };
 
+  const deleteProperty = async (propertyId: number) => {
+    setIsDeleting(true);
+    setError(null);
+
+    try {
+      await deletePropertyForRealOwner(propertyId);
+      setProperties((prev) =>
+        prev.filter((property) => property.id !== propertyId)
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to delete property"
+      );
+      throw err;
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   useEffect(() => {
     fetchProperties();
   }, [realOwnerId]);
@@ -92,8 +127,11 @@ export const useRealOwnerProperties = (realOwnerId: number) => {
     error,
     isCreating,
     isUpdating,
+    isDeleting,
     fetchProperties,
+    fetchPropertyById,
     createProperty,
     updateProperty,
+    deleteProperty,
   };
 };

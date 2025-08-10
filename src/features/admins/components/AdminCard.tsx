@@ -66,7 +66,6 @@ export const AdminCard = ({
     setConfirmModal({ isOpen: false, type: null });
   };
 
-
   const isCurrentActionLoading =
     (confirmModal.type === "toggle" && isToggling) ||
     (confirmModal.type === "delete" && isDeleting);
@@ -152,10 +151,10 @@ export const AdminCard = ({
               onClick={handleToggleClick}
               disabled={isToggling}
               className={cn(
-                "flex-1 flex items-center justify-center gap-1 cursor-pointer sm:gap-2 px-2 sm:px-3 py-2 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm",
+                "mx-auto flex items-center justify-center gap-1 cursor-pointer sm:gap-2 px-2 sm:px-3 py-2 rounded-lg font-medium transition-all duration-200 text-xs sm:text-sm",
                 admin.active
-                  ? "bg-blue-900 hover:bg-blue-950 text-white"
-                  : "bg-blue-600 hover:bg-blue-700 text-white",
+                  ? "bg-red-600 hover:bg-red-500 text-white"
+                  : "bg-green-600 hover:bg-green-500 text-white",
                 isToggling && "opacity-50 cursor-not-allowed"
               )}
               title={

@@ -192,9 +192,12 @@
     "owner": "المالك",
     "notSpecified": "غير محدد",
     "notAssigned": "غير مخصص",
+    "yes": "نعم",
+    "no": "لا",
     "retry": "إعادة المحاولة",
     "confirm": "تأكيد",
     "clickToUpload": "انقر للرفع",
+    "clickToChange": "انقر للتغيير",
     "orDragAndDrop": "أو اسحب وأفلت",
     "currency": "ريال",
     "select": "اختر",
@@ -250,8 +253,8 @@
     }
   },
   "realOwners": {
-    "title": "إدارة المالكين الحقيقيين",
-    "subtitle": "عرض وإدارة جميع المالكين الحقيقيين للعقارات",
+    "title": "إدارة المالكين ",
+    "subtitle": "عرض وإدارة جميع المالكين  للعقارات",
     "addNew": "إضافة مالك جديد",
     "total": "إجمالي المالكين",
     "active": "المالكين النشطين",
@@ -259,15 +262,15 @@
     "noRealOwners": "لا يوجد مالكين حقيقيين",
     "iban": "رقم الحساب البنكي",
     "createdAt": "تاريخ الإنشاء",
-    "deleteTitle": "حذف المالك الحقيقي",
-    "deleteMessage": "هل أنت متأكد من حذف المالك الحقيقي \"{{name}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+    "deleteTitle": "حذف المالك ",
+    "deleteMessage": "هل أنت متأكد من حذف المالك  \"{{name}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
     "toast": {
-      "createSuccess": "تم إنشاء المالك الحقيقي بنجاح",
-      "createError": "فشل في إنشاء المالك الحقيقي",
-      "updateSuccess": "تم تحديث المالك الحقيقي بنجاح",
-      "updateError": "فشل في تحديث المالك الحقيقي",
-      "deleteSuccess": "تم حذف المالك الحقيقي بنجاح",
-      "deleteError": "فشل في حذف المالك الحقيقي"
+      "createSuccess": "تم إنشاء المالك  بنجاح",
+      "createError": "فشل في إنشاء المالك ",
+      "updateSuccess": "تم تحديث المالك  بنجاح",
+      "updateError": "فشل في تحديث المالك ",
+      "deleteSuccess": "تم حذف المالك  بنجاح",
+      "deleteError": "فشل في حذف المالك "
     },
     "form": {
       "fullName": "الاسم الكامل",
@@ -282,6 +285,8 @@
       "ibanPlaceholder": "أدخل رقم الحساب البنكي",
       "ibanImage": "صورة الحساب البنكي",
       "ibanImagePlaceholder": "رفع صورة الحساب البنكي",
+      "ibanImageChangePlaceholder": "انقر لتغيير صورة الحساب البنكي",
+      "imageEditNote": "لا يمكن تغيير الصورة أثناء التعديل. يرجى الاتصال بالدعم إذا كنت بحاجة لتحديث الصورة.",
       "removeImage": "إزالة الصورة"
     },
     "validation": {
@@ -342,6 +347,13 @@
     "update": "تحديث",
     "paymentValue": "قيمة الدفع",
     "customPaymentDays": "أيام الدفع المخصصة",
+    "paidComplete": "تم الدفع",
+    "fullName": "الاسم الكامل",
+    "phoneNumber": "رقم الهاتف",
+    "nationalId": "الرقم الوطني",
+    "isPaid": "تم الدفع",
+    "monthly": "شهري",
+    "yearly": "سنوي",
     "status": {
       "pending": "معلق",
       "approved": "مقبول",

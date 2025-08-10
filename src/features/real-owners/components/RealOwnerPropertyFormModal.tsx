@@ -45,7 +45,7 @@ export const RealOwnerPropertyFormModal = ({
       setFormData({
         title: property.title,
         description: property.description,
-        realOwnerId: property.realOwnerId || realOwnerId,
+        realOwnerId: realOwnerId, // Use the prop since it's not in the response
         regionId: property.regionId,
         cityId: property.cityId,
         neighborhoodId: property.neighborhoodId,
@@ -53,10 +53,10 @@ export const RealOwnerPropertyFormModal = ({
         subUnits: property.subUnits.map((unit) => ({
           propertyTypeId: unit.propertyTypeId,
           paymentType: unit.paymentType,
-          customPaymentDays: unit.customPaymentDays || 0,
-          paymentValue: unit.paymentValue || 0,
-          price: unit.price || 0,
-          paidAmount: unit.paidAmount || 0,
+          customPaymentDays: unit.customPaymentDays,
+          paymentValue: unit.paymentValue,
+          price: unit.price,
+          paidAmount: unit.paidAmount,
         })),
       });
     } else {
@@ -108,7 +108,7 @@ export const RealOwnerPropertyFormModal = ({
         {
           propertyTypeId: 0,
           paymentType: "",
-          customPaymentDays: 0,
+          customPaymentDays: null,
           paymentValue: 0,
           price: 0,
           paidAmount: 0,
@@ -123,7 +123,7 @@ export const RealOwnerPropertyFormModal = ({
       ...data,
       subUnits: data.subUnits.map((unit) => ({
         ...unit,
-        customPaymentDays: unit.customPaymentDays || 0,
+        customPaymentDays: unit.customPaymentDays, // Keep as null if not set
         paymentValue: unit.paymentValue || 0,
         paidAmount: unit.paidAmount || 0,
         price: unit.price || 0,
@@ -377,8 +377,7 @@ export const RealOwnerPropertyFormModal = ({
                       <label className="block text-sm font-medium text-gray-600 mb-1">
                         {t("properties.paymentType")} *
                       </label>
-                      <input
-                        type="text"
+                      <select
                         value={unit.paymentType}
                         onChange={(e) =>
                           handleSubUnitChange(
@@ -389,7 +388,13 @@ export const RealOwnerPropertyFormModal = ({
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         required
-                      />
+                      >
+                        <option value="">{t("common.select")}</option>
+                        <option value="MONTHLY">
+                          {t("properties.monthly")}
+                        </option>
+                        <option value="YEARLY">{t("properties.yearly")}</option>
+                      </select>
                     </div>
 
                     <div>
@@ -419,7 +424,9 @@ export const RealOwnerPropertyFormModal = ({
                       </label>
                       <input
                         type="number"
-                        value={unit.paidAmount || ""}
+                        value={
+                          unit.paidAmount === 0 ? 0 : unit.paidAmount || ""
+                        }
                         onChange={(e) =>
                           handleSubUnitChange(
                             index,
@@ -464,11 +471,14 @@ export const RealOwnerPropertyFormModal = ({
                           handleSubUnitChange(
                             index,
                             "customPaymentDays",
-                            parseInt(e.target.value) || 0
+                            e.target.value === ""
+                              ? null
+                              : parseInt(e.target.value)
                           )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         min="0"
+                        placeholder="Leave empty for null"
                       />
                     </div>
                   </div>

@@ -1,4 +1,12 @@
-import { Home, MapPin, Calendar, DollarSign, Eye, Edit } from "lucide-react";
+import {
+  Home,
+  MapPin,
+  Calendar,
+  DollarSign,
+  Eye,
+  Edit,
+  Trash2,
+} from "lucide-react";
 import type { RealOwnerProperty } from "../types/real-owner-response.types";
 import { useLookupData } from "@/features/properties/hooks/useLookupData";
 import useLanguage from "@/hooks/useLanguage";
@@ -7,12 +15,16 @@ interface RealOwnerPropertyCardProps {
   property: RealOwnerProperty;
   onView: (property: RealOwnerProperty) => void;
   onEdit?: (property: RealOwnerProperty) => void;
+  onDelete?: (propertyId: number) => void;
+  isDeleting?: boolean;
 }
 
 export const RealOwnerPropertyCard = ({
   property,
   onView,
   onEdit,
+  onDelete,
+  isDeleting = false,
 }: RealOwnerPropertyCardProps) => {
   const { isRTL, t } = useLanguage();
   const { getRegionName, getCityName } = useLookupData();
@@ -35,8 +47,28 @@ export const RealOwnerPropertyCard = ({
     0
   );
 
+  // Check if all units are paid
+  const isFullyPaid = property.subUnits.every((unit) => unit.isPaid === true);
+
+  const handleDelete = () => {
+    if (onDelete && !isDeleting) {
+      onDelete(property.id);
+    }
+  };
+
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 overflow-hidden">
+    <div
+      className={`bg-white rounded-2xl shadow-sm border hover:shadow-md transition-all duration-300 overflow-hidden ${
+        isFullyPaid ? "border-green-200 bg-green-50" : "border-gray-100"
+      }`}
+    >
+      {/* Paid Status Badge */}
+      {isFullyPaid && (
+        <div className="bg-green-500 text-white text-center py-2 px-4">
+          <span className="font-medium">{t("properties.paidComplete")}</span>
+        </div>
+      )}
+
       {/* Header */}
       <div className="p-6 pb-4">
         <div
@@ -153,6 +185,18 @@ export const RealOwnerPropertyCard = ({
             >
               <Edit className="h-4 w-4" />
               <span>{t("common.edit")}</span>
+            </button>
+          )}
+          {onDelete && (
+            <button
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="flex items-center justify-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors duration-200 text-sm font-medium min-w-[80px] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Trash2 className="h-4 w-4" />
+              <span>
+                {isDeleting ? t("common.deleting") : t("common.delete")}
+              </span>
             </button>
           )}
           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
