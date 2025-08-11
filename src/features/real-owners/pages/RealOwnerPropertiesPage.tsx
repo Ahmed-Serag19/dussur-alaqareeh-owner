@@ -8,19 +8,24 @@ import { useRealOwnerProperties } from "../hooks/useRealOwnerProperties";
 import { useRealOwnersData } from "../hooks/useRealOwnersData";
 import { Button } from "@/components/ui/button";
 import useLanguage from "@/hooks/useLanguage";
-import type { RealOwnerProperty } from "../types/real-owner-response.types";
+import type {
+  RealOwnerProperty,
+  CreatePropertyForRealOwnerRequest,
+} from "../types/real-owner-response.types";
 
 const RealOwnerPropertiesPage = () => {
   const { realOwnerId } = useParams<{ realOwnerId: string }>();
   const navigate = useNavigate();
-  const { isRTL, t } = useLanguage();
-  const [showAddProperty, setShowAddProperty] = useState(false);
+  const { t } = useLanguage();
   const [selectedProperty, setSelectedProperty] =
     useState<RealOwnerProperty | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProperty, setEditingProperty] =
     useState<RealOwnerProperty | null>(null);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [deleteConfirmProperty, setDeleteConfirmProperty] =
+    useState<RealOwnerProperty | null>(null);
 
   const {
     properties,
@@ -40,7 +45,12 @@ const RealOwnerPropertiesPage = () => {
   );
 
   const handleBack = () => {
-    navigate("/real-owners");
+    // Go back one step in browser history, or fallback to real owners list
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/real-owners");
+    }
   };
 
   const handleAddProperty = () => {
@@ -58,12 +68,21 @@ const RealOwnerPropertiesPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteProperty = async (propertyId: number) => {
-    try {
-      await deleteProperty(propertyId);
-    } catch (error) {
-      console.error("Failed to delete property:", error);
+  const handleDeleteProperty = (property: RealOwnerProperty) => {
+    setDeleteConfirmProperty(property);
+  };
+
+  const confirmDeleteProperty = () => {
+    if (deleteConfirmProperty) {
+      deleteProperty(deleteConfirmProperty.id).catch((error) => {
+        console.error("Failed to delete property:", error);
+      });
+      setDeleteConfirmProperty(null);
     }
+  };
+
+  const cancelDeleteProperty = () => {
+    setDeleteConfirmProperty(null);
   };
 
   const handleCloseModal = () => {
@@ -74,18 +93,94 @@ const RealOwnerPropertiesPage = () => {
   const handleCloseFormModal = () => {
     setIsFormModalOpen(false);
     setEditingProperty(null);
+    setFormError(null);
   };
 
-  const handleFormSubmit = async (data: CreatePropertyForRealOwnerRequest) => {
-    try {
-      if (editingProperty) {
-        await updateProperty(editingProperty.id, data);
-      } else {
-        await createProperty(data);
+  const handleFormSubmit = (data: CreatePropertyForRealOwnerRequest) => {
+    console.log("Form submitted with data:", data);
+    setFormError(null);
+
+    // Validate the data before submission
+    const validationErrors = [];
+
+    // Log the data being submitted for debugging
+    console.log("Submitting property data:", {
+      title: data.title,
+      description: data.description,
+      regionId: data.regionId,
+      cityId: data.cityId,
+      neighborhoodId: data.neighborhoodId,
+      listingTypeId: data.listingTypeId,
+      subUnitsCount: data.subUnits.length,
+      realOwnerId: data.realOwnerId,
+    });
+
+    if (!data.title || data.title.trim() === "") {
+      validationErrors.push("Property title is required");
+    }
+
+    if (!data.description || data.description.trim() === "") {
+      validationErrors.push("Property description is required");
+    }
+
+    if (!data.regionId || data.regionId === 0) {
+      validationErrors.push("Region is required");
+    }
+
+    if (!data.cityId || data.cityId === 0) {
+      validationErrors.push("City is required");
+    }
+
+    if (!data.neighborhoodId || data.neighborhoodId === 0) {
+      validationErrors.push("Neighborhood is required");
+    }
+
+    if (!data.listingTypeId || data.listingTypeId === 0) {
+      validationErrors.push("Listing type is required");
+    }
+
+    if (data.subUnits.length === 0) {
+      validationErrors.push("At least one sub-unit is required");
+    }
+
+    // Validate sub-units
+    data.subUnits.forEach((unit, index) => {
+      if (!unit.propertyTypeId || unit.propertyTypeId === 0) {
+        validationErrors.push(
+          `Sub-unit ${index + 1}: Property type is required`
+        );
       }
-      handleCloseFormModal();
-    } catch (error) {
-      console.error("Failed to save property:", error);
+      if (!unit.paymentType || unit.paymentType === "") {
+        validationErrors.push(
+          `Sub-unit ${index + 1}: Payment type is required`
+        );
+      }
+      if (!unit.price || unit.price <= 0) {
+        validationErrors.push(
+          `Sub-unit ${index + 1}: Price must be greater than 0`
+        );
+      }
+    });
+
+    if (validationErrors.length > 0) {
+      setFormError(validationErrors.join(", "));
+      return;
+    }
+
+    if (editingProperty) {
+      updateProperty(editingProperty.id, data)
+        .then(() => handleCloseFormModal())
+        .catch((error) => {
+          console.log("Update property error:", error);
+          setFormError(error.message || "Failed to update property");
+        });
+    } else {
+      createProperty(data)
+        .then(() => handleCloseFormModal())
+        .catch((error) => {
+          console.log("Create property error:", error);
+          setFormError(error.message || "Failed to create property");
+        });
     }
   };
 
@@ -106,11 +201,7 @@ const RealOwnerPropertiesPage = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div
-        className={`flex items-center justify-between flex-col gap-4 ${
-          isRTL ? "sm:flex-row-reverse" : ""
-        }`}
-      >
+      <div className="flex items-center justify-between flex-col gap-4">
         <div className="flex items-center gap-3">
           <Button
             onClick={handleBack}
@@ -200,13 +291,13 @@ const RealOwnerPropertiesPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {properties.map((property) => (
+          {properties.map((property, index) => (
             <RealOwnerPropertyCard
-              key={property.id}
+              key={property.id || `property-${index}`}
               property={property}
               onView={handleViewProperty}
               onEdit={handleEditProperty}
-              onDelete={handleDeleteProperty}
+              onDelete={() => handleDeleteProperty(property)}
               isDeleting={isDeleting}
             />
           ))}
@@ -228,7 +319,48 @@ const RealOwnerPropertiesPage = () => {
         property={editingProperty}
         isLoading={isCreating || isUpdating}
         realOwnerId={parseInt(realOwnerId || "0")}
+        error={formError}
       />
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmProperty && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-screen items-center justify-center p-4">
+            <div
+              className="fixed inset-0 bg-black/60 transition-opacity"
+              onClick={cancelDeleteProperty}
+            />
+            <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full">
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  {t("common.confirmDelete")}
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  {t("properties.deleteConfirm", {
+                    title: deleteConfirmProperty.title,
+                  })}
+                </p>
+                <div className="flex gap-3 justify-end">
+                  <Button
+                    onClick={cancelDeleteProperty}
+                    variant="outline"
+                    disabled={isDeleting}
+                  >
+                    {t("common.cancel")}
+                  </Button>
+                  <Button
+                    onClick={confirmDeleteProperty}
+                    variant="destructive"
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? t("common.deleting") : t("common.delete")}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

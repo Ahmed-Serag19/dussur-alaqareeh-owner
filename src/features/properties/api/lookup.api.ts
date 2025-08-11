@@ -74,10 +74,20 @@ export const getPropertyFeatures = async (): Promise<LookupItem[]> => {
 
 // Fetch all lookup data at once
 export const getAllLookupData = async (): Promise<LookupData> => {
+  // First get all regions
+  const regions = await getRegions();
+
+  // Then get all cities for all regions
+  const citiesPromises = regions.map((region) => getCities(region.id));
+  const citiesArrays = await Promise.all(citiesPromises);
+  const cities = citiesArrays.flat(); // Flatten all cities into one array
+
+  // Then get all neighborhoods for all cities
+  const neighborhoodsPromises = cities.map((city) => getNeighborhoods(city.id));
+  const neighborhoodsArrays = await Promise.all(neighborhoodsPromises);
+  const neighborhoods = neighborhoodsArrays.flat(); // Flatten all neighborhoods into one array
+
   const [
-    regions,
-    cities,
-    neighborhoods,
     propertyTypes,
     listingTypes,
     propertyConditions,
@@ -85,9 +95,6 @@ export const getAllLookupData = async (): Promise<LookupData> => {
     propertyStatusValues,
     propertyFeatures,
   ] = await Promise.all([
-    getRegions(),
-    getCities(),
-    getNeighborhoods(),
     getPropertyTypes(),
     getListingTypes(),
     getPropertyConditions(),

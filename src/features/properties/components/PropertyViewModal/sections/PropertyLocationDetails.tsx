@@ -44,7 +44,7 @@ export const PropertyLocationDetails = ({
           <label className="text-sm font-medium text-muted-foreground">
             {t("properties.city")}
           </label>
-          <p>{getCityName(property.cityId) || t("common.notSpecified")}</p>
+          <p>{getCityName(property.cityId, property.regionId) || t("common.notSpecified")}</p>
         </div>
 
         <div className="space-y-2">
@@ -52,7 +52,7 @@ export const PropertyLocationDetails = ({
             {t("properties.neighborhood")}
           </label>
           <p>
-            {getNeighborhoodName(property.neighborhoodId) ||
+            {getNeighborhoodName(property.neighborhoodId, property.cityId) ||
               t("common.notSpecified")}
           </p>
         </div>

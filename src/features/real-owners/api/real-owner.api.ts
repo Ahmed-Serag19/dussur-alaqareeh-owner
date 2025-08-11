@@ -3,6 +3,8 @@ import type {
   RealOwner,
   CreateRealOwnerRequest,
   UpdateRealOwnerRequest,
+  RealOwnerProperty,
+  CreatePropertyForRealOwnerRequest,
 } from "../types/real-owner-response.types";
 
 // Real Owner Management APIs
@@ -54,15 +56,25 @@ export const updateRealOwner = (
     // Use FormData for image upload (like create)
     const formData = new FormData();
 
-    // Add realowner data as JSON with content type
-    const realownerData = {
-      fullName: data.fullName,
-      nationalId: data.nationalId,
-      phoneNumber: data.phoneNumber,
-      accountBank: data.accountBank,
-      iban: data.iban,
-      ibanImageUrl: null, // Include null ibanImageUrl in the JSON
-    };
+    // Build realowner data object with only provided fields
+    const realownerData: Partial<{
+      fullName: string;
+      nationalId: string;
+      phoneNumber: string;
+      accountBank: string;
+      iban: string;
+      ibanImageUrl: string | null;
+    }> = {};
+    if (data.fullName !== undefined) realownerData.fullName = data.fullName;
+    if (data.nationalId !== undefined)
+      realownerData.nationalId = data.nationalId;
+    if (data.phoneNumber !== undefined)
+      realownerData.phoneNumber = data.phoneNumber;
+    if (data.accountBank !== undefined)
+      realownerData.accountBank = data.accountBank;
+    if (data.iban !== undefined) realownerData.iban = data.iban;
+    if (data.ibanImageUrl !== undefined)
+      realownerData.ibanImageUrl = data.ibanImageUrl;
 
     // Create a Blob with the JSON data and set content type
     const realownerBlob = new Blob([JSON.stringify(realownerData)], {
@@ -78,14 +90,28 @@ export const updateRealOwner = (
       },
     });
   } else {
-    // Use JSON for text-only updates (keep existing image)
+    // Use JSON for text-only updates
+    const realownerData: Partial<{
+      fullName: string;
+      nationalId: string;
+      phoneNumber: string;
+      accountBank: string;
+      iban: string;
+      ibanImageUrl: string | null;
+    }> = {};
+    if (data.fullName !== undefined) realownerData.fullName = data.fullName;
+    if (data.nationalId !== undefined)
+      realownerData.nationalId = data.nationalId;
+    if (data.phoneNumber !== undefined)
+      realownerData.phoneNumber = data.phoneNumber;
+    if (data.accountBank !== undefined)
+      realownerData.accountBank = data.accountBank;
+    if (data.iban !== undefined) realownerData.iban = data.iban;
+    if (data.ibanImageUrl !== undefined)
+      realownerData.ibanImageUrl = data.ibanImageUrl;
+
     const jsonData = {
-      fullName: data.fullName,
-      nationalId: data.nationalId,
-      phoneNumber: data.phoneNumber,
-      accountBank: data.accountBank,
-      iban: data.iban,
-      ibanImageUrl: data.ibanImageUrl || "string",
+      realowner: realownerData,
     };
 
     return axiosInstance.put<RealOwner>(`/real-owners/${id}`, jsonData);
@@ -99,62 +125,32 @@ export const deleteRealOwner = (id: number) => {
 // Property Management APIs for Real Owners
 export const getRealOwnerProperties = (realOwnerId?: number) => {
   const params = realOwnerId ? { realOwnerId } : {};
-  return axiosInstance.get("/real-owners/properties", { params });
+  return axiosInstance.get<RealOwnerProperty[]>("/real-owners/properties", {
+    params,
+  });
 };
 
 export const getRealOwnerPropertyById = (id: number) => {
-  return axiosInstance.get(`/real-owners/properties/${id}`);
+  return axiosInstance.get<RealOwnerProperty>(`/real-owners/properties/${id}`);
 };
 
-export const createPropertyForRealOwner = async (propertyData: {
-  title: string;
-  description: string;
-  realOwnerId: number;
-  regionId: number;
-  cityId: number;
-  neighborhoodId: number;
-  listingTypeId: number;
-  subUnits: Array<{
-    propertyTypeId: number;
-    paymentType: string;
-    customPaymentDays: number | null;
-    paymentValue: number;
-    price: number;
-    paidAmount: number;
-  }>;
-}) => {
-  const response = await axiosInstance.post(
+export const createPropertyForRealOwner = (
+  propertyData: CreatePropertyForRealOwnerRequest
+) => {
+  return axiosInstance.post<RealOwnerProperty>(
     "/real-owners/properties",
     propertyData
   );
-  return response.data;
 };
 
-export const updatePropertyForRealOwner = async (
+export const updatePropertyForRealOwner = (
   propertyId: number,
-  propertyData: {
-    title: string;
-    description: string;
-    realOwnerId: number;
-    regionId: number;
-    cityId: number;
-    neighborhoodId: number;
-    listingTypeId: number;
-    subUnits: Array<{
-      propertyTypeId: number;
-      paymentType: string;
-      customPaymentDays: number | null;
-      paymentValue: number;
-      price: number;
-      paidAmount: number;
-    }>;
-  }
+  propertyData: CreatePropertyForRealOwnerRequest
 ) => {
-  const response = await axiosInstance.put(
+  return axiosInstance.put<RealOwnerProperty>(
     `/real-owners/properties/${propertyId}`,
     propertyData
   );
-  return response.data;
 };
 
 export const deletePropertyForRealOwner = (propertyId: number) => {

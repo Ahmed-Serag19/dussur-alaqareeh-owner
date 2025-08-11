@@ -68,6 +68,7 @@ const createRealOwnerSchema = (isRTL: boolean) => {
       .string()
       .min(1, errorMessages.ibanRequired)
       .refine((value) => value !== "string", "غير متاح"),
+    ibanImageUrl: z.string().optional(),
   });
 };
 
@@ -108,6 +109,7 @@ export const RealOwnerModal = ({
       phoneNumber: realOwner?.phoneNumber || "",
       accountBank: realOwner?.accountBank || "",
       iban: realOwner?.iban || "",
+      ibanImageUrl: realOwner?.ibanImageUrl || "",
     },
   });
 
@@ -118,6 +120,7 @@ export const RealOwnerModal = ({
       phoneNumber: "",
       accountBank: "",
       iban: "",
+      ibanImageUrl: "",
     });
     setIbanImage(null);
     setPreviewUrl(null);
@@ -136,6 +139,10 @@ export const RealOwnerModal = ({
         phoneNumber: realOwner.phoneNumber,
         accountBank: realOwner.accountBank,
         iban: realOwner.iban,
+        ibanImageUrl:
+          realOwner.ibanImageUrl && realOwner.ibanImageUrl !== "string"
+            ? realOwner.ibanImageUrl
+            : "",
       });
       // Set the existing image URL as preview
       if (realOwner.ibanImageUrl && realOwner.ibanImageUrl !== "string") {
@@ -172,13 +179,36 @@ export const RealOwnerModal = ({
   };
 
   const handleFormSubmit = (data: RealOwnerFormData) => {
+    console.log("RealOwnerModal - Form submission data:", {
+      isEdit: !!realOwner,
+      formData: data,
+      ibanImage: ibanImage,
+      existingImageUrl: realOwner?.ibanImageUrl,
+    });
+
     if (realOwner) {
-      // Update existing real owner
-      const updateData: UpdateRealOwnerRequest = {
-        ...data,
-        ibanImageUrl: ibanImage ? null : realOwner.ibanImageUrl, // Send null if new image selected
-        ibanImage: ibanImage || undefined, // Send the image if selected
-      };
+      // Update existing real owner - only send changed fields
+      const updateData: UpdateRealOwnerRequest = {};
+
+      // Only include fields that have changed from the original
+      if (data.fullName !== realOwner.fullName)
+        updateData.fullName = data.fullName;
+      if (data.nationalId !== realOwner.nationalId)
+        updateData.nationalId = data.nationalId;
+      if (data.phoneNumber !== realOwner.phoneNumber)
+        updateData.phoneNumber = data.phoneNumber;
+      if (data.accountBank !== realOwner.accountBank)
+        updateData.accountBank = data.accountBank;
+      if (data.iban !== realOwner.iban) updateData.iban = data.iban;
+
+      // Handle image: if new image selected, send it; if image URL changed, send the URL
+      if (ibanImage) {
+        updateData.ibanImage = ibanImage;
+      } else if (data.ibanImageUrl !== realOwner.ibanImageUrl) {
+        updateData.ibanImageUrl = data.ibanImageUrl;
+      }
+
+      console.log("RealOwnerModal - Update data:", updateData);
       onSubmit(updateData);
     } else {
       // Create new real owner
@@ -186,6 +216,7 @@ export const RealOwnerModal = ({
         realowner: data,
         ibanImage: ibanImage || undefined, // Send the image if selected
       };
+      console.log("RealOwnerModal - Create data:", createData);
       onSubmit(createData);
     }
   };
@@ -326,6 +357,29 @@ export const RealOwnerModal = ({
                 />
                 {errors.iban && (
                   <p className="text-sm text-red-600">{errors.iban.message}</p>
+                )}
+              </div>
+
+              {/* IBAN Image URL */}
+              <div className="space-y-2 md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  {t("realOwners.form.ibanImageUrl") || "IBAN Image URL"}
+                </label>
+                <input
+                  {...register("ibanImageUrl")}
+                  type="url"
+                  placeholder={
+                    t("realOwners.form.ibanImageUrlPlaceholder") ||
+                    "Enter IBAN image URL"
+                  }
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.ibanImageUrl ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.ibanImageUrl && (
+                  <p className="text-sm text-red-600">
+                    {errors.ibanImageUrl.message}
+                  </p>
                 )}
               </div>
 

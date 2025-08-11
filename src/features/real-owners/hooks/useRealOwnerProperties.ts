@@ -10,8 +10,12 @@ import type {
   RealOwnerProperty,
   CreatePropertyForRealOwnerRequest,
 } from "../types/real-owner-response.types";
+import { extractErrorMessage, logError } from "@/lib/errorHandler";
+import { toast } from "react-hot-toast";
+import useLanguage from "@/hooks/useLanguage";
 
 export const useRealOwnerProperties = (realOwnerId?: number) => {
+  const { t } = useLanguage();
   const [properties, setProperties] = useState<RealOwnerProperty[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,9 +31,8 @@ export const useRealOwnerProperties = (realOwnerId?: number) => {
       const response = await getRealOwnerProperties(realOwnerId);
       setProperties(response.data);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to fetch properties"
-      );
+      logError(err, "Fetch Properties");
+      setError(extractErrorMessage(err));
     } finally {
       setIsLoading(false);
     }
@@ -43,8 +46,10 @@ export const useRealOwnerProperties = (realOwnerId?: number) => {
       const response = await getRealOwnerPropertyById(id);
       return response.data;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch property");
-      throw err;
+      logError(err, "Fetch Property by ID");
+      const errorMessage = extractErrorMessage(err);
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -58,13 +63,20 @@ export const useRealOwnerProperties = (realOwnerId?: number) => {
 
     try {
       const newProperty = await createPropertyForRealOwner(propertyData);
-      setProperties((prev) => [...prev, newProperty]);
+      console.log("Created property response:", newProperty);
+
+      // Refetch the properties list to ensure we have the correct data
+      await fetchProperties();
+
+      toast.success(t("properties.createSuccess"));
       return newProperty;
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to create property"
-      );
-      throw err;
+      console.log("useRealOwnerProperties createProperty error:", err);
+      logError(err, "Create Property");
+      const errorMessage = extractErrorMessage(err);
+      console.log("Extracted error message:", errorMessage);
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setIsCreating(false);
     }
@@ -82,17 +94,17 @@ export const useRealOwnerProperties = (realOwnerId?: number) => {
         propertyId,
         propertyData
       );
-      setProperties((prev) =>
-        prev.map((property) =>
-          property.id === propertyId ? updatedProperty : property
-        )
-      );
+
+      // Refetch the properties list to ensure we have the correct data
+      await fetchProperties();
+
+      toast.success(t("properties.updateSuccess"));
       return updatedProperty;
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to update property"
-      );
-      throw err;
+      logError(err, "Update Property");
+      const errorMessage = extractErrorMessage(err);
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setIsUpdating(false);
     }
@@ -107,11 +119,13 @@ export const useRealOwnerProperties = (realOwnerId?: number) => {
       setProperties((prev) =>
         prev.filter((property) => property.id !== propertyId)
       );
+      toast.success(t("properties.deleteSuccess"));
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to delete property"
-      );
-      throw err;
+      logError(err, "Delete Property");
+      const errorMessage = extractErrorMessage(err);
+      setError(errorMessage);
+      toast.error(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setIsDeleting(false);
     }

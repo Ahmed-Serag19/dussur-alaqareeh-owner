@@ -54,7 +54,7 @@ export const RealOwnerCard = ({
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col">
+      <div className="bg-white rounded-2xl max-w-sm mx-auto shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col">
         {/* Header */}
         <div className="p-6 pb-4">
           <div

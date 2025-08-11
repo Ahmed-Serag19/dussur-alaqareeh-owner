@@ -27,9 +27,49 @@ export const useLookupData = () => {
   };
 
   const getRegionName = (id: number) => getLookupValue(lookupData?.regions, id);
-  const getCityName = (id: number) => getLookupValue(lookupData?.cities, id);
-  const getNeighborhoodName = (id: number) =>
-    getLookupValue(lookupData?.neighborhoods, id);
+  const getCityName = (id: number, regionId?: number) => {
+    if (!lookupData?.cities || !id) return "";
+
+    // Find the city by ID
+    const city = lookupData.cities.find((city) => city.id === id);
+    if (!city) {
+      console.warn(`City ID ${id} not found in lookup data`);
+      return "";
+    }
+
+    // If regionId is provided, verify the city belongs to that region
+    if (regionId && city.regionId !== regionId) {
+      console.warn(
+        `City ID ${id} (${city.nameAr}) does not belong to region ID ${regionId}`
+      );
+      return "";
+    }
+
+    return isRTL ? city.nameAr : city.nameEn;
+  };
+
+  const getNeighborhoodName = (id: number, cityId?: number) => {
+    if (!lookupData?.neighborhoods || !id) return "";
+
+    // Find the neighborhood by ID
+    const neighborhood = lookupData.neighborhoods.find(
+      (neighborhood) => neighborhood.id === id
+    );
+    if (!neighborhood) {
+      console.warn(`Neighborhood ID ${id} not found in lookup data`);
+      return "";
+    }
+
+    // If cityId is provided, verify the neighborhood belongs to that city
+    if (cityId && neighborhood.cityId !== cityId) {
+      console.warn(
+        `Neighborhood ID ${id} (${neighborhood.nameAr}) does not belong to city ID ${cityId}`
+      );
+      return "";
+    }
+
+    return isRTL ? neighborhood.nameAr : neighborhood.nameEn;
+  };
   const getPropertyTypeName = (id: number) =>
     getLookupValue(lookupData?.propertyTypes, id);
   const getListingTypeName = (id: number) =>

@@ -15,6 +15,7 @@ interface RealOwnerPropertyFormModalProps {
   property?: RealOwnerProperty | null;
   isLoading?: boolean;
   realOwnerId: number;
+  error?: string | null;
 }
 
 export const RealOwnerPropertyFormModal = ({
@@ -24,6 +25,7 @@ export const RealOwnerPropertyFormModal = ({
   property,
   isLoading = false,
   realOwnerId,
+  error,
 }: RealOwnerPropertyFormModalProps) => {
   const { isRTL, t } = useLanguage();
   const { lookupData, isLoading: isLoadingLookups } = useLookupData();
@@ -53,10 +55,11 @@ export const RealOwnerPropertyFormModal = ({
         subUnits: property.subUnits.map((unit) => ({
           propertyTypeId: unit.propertyTypeId,
           paymentType: unit.paymentType,
-          customPaymentDays: unit.customPaymentDays,
           paymentValue: unit.paymentValue,
           price: unit.price,
           paidAmount: unit.paidAmount,
+          tenantName: unit.tenantName,
+          tenantPhoneNumber: unit.tenantPhoneNumber,
         })),
       });
     } else {
@@ -84,14 +87,18 @@ export const RealOwnerPropertyFormModal = ({
       (neighborhood) => neighborhood.cityId === formData.cityId
     ) || [];
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: string | number) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  const handleSubUnitChange = (index: number, field: string, value: any) => {
+  const handleSubUnitChange = (
+    index: number,
+    field: string,
+    value: string | number | null
+  ) => {
     setFormData((prev) => ({
       ...prev,
       subUnits: prev.subUnits.map((unit, i) =>
@@ -108,10 +115,11 @@ export const RealOwnerPropertyFormModal = ({
         {
           propertyTypeId: 0,
           paymentType: "",
-          customPaymentDays: null,
           paymentValue: 0,
           price: 0,
           paidAmount: 0,
+          tenantName: null,
+          tenantPhoneNumber: null,
         },
       ],
     }));
@@ -123,7 +131,6 @@ export const RealOwnerPropertyFormModal = ({
       ...data,
       subUnits: data.subUnits.map((unit) => ({
         ...unit,
-        customPaymentDays: unit.customPaymentDays, // Keep as null if not set
         paymentValue: unit.paymentValue || 0,
         paidAmount: unit.paidAmount || 0,
         price: unit.price || 0,
@@ -138,16 +145,29 @@ export const RealOwnerPropertyFormModal = ({
     }));
   };
 
+  // Reset form to initial state
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      description: "",
+      realOwnerId,
+      regionId: 0,
+      cityId: 0,
+      neighborhoodId: 0,
+      listingTypeId: 0,
+      subUnits: [],
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const cleanedData = cleanFormData(formData);
     onSubmit(cleanedData);
-  };
 
-  const getLookupName = (items: any[], id: number) => {
-    const item = items.find((item) => item.id === id);
-    if (!item) return `ID: ${id}`;
-    return isRTL ? item.nameAr : item.nameEn;
+    // Reset form after submission (only for create, not edit)
+    if (!property) {
+      resetForm();
+    }
   };
 
   if (!isOpen) return null;
@@ -161,7 +181,11 @@ export const RealOwnerPropertyFormModal = ({
         />
         <div className="relative bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <div
+            className={`flex items-center justify-between p-6 border-b border-gray-200 ${
+              isRTL ? "flex-row-reverse" : ""
+            }`}
+          >
             <h2 className="text-xl font-semibold text-gray-900">
               {property ? t("common.edit") : t("common.add")}{" "}
               {t("properties.title")}
@@ -176,11 +200,42 @@ export const RealOwnerPropertyFormModal = ({
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            {/* Error Display */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <svg
+                      className="h-5 w-5 text-red-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="mr-3">
+                    <p className="text-sm text-red-800">{error}</p>
+                  </div>
+                </div>
+              </div>
+            )}
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t("properties.title")} *
+              <div
+                className={`flex flex-col ${
+                  isRTL ? "items-end" : "items-start"
+                }`}
+              >
+                <label
+                  className={`block text-sm font-medium text-gray-700 mb-2 ${
+                    isRTL ? "text-right" : "text-left"
+                  }`}
+                >
+                  {t("properties.title")}
                 </label>
                 <input
                   type="text"
@@ -190,9 +245,17 @@ export const RealOwnerPropertyFormModal = ({
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t("properties.description")} *
+              <div
+                className={`flex flex-col ${
+                  isRTL ? "items-end" : "items-start"
+                }`}
+              >
+                <label
+                  className={`block text-sm font-medium text-gray-700 mb-2 ${
+                    isRTL ? "text-right" : "text-left"
+                  }`}
+                >
+                  {t("properties.description")}
                 </label>
                 <textarea
                   value={formData.description}
@@ -212,9 +275,17 @@ export const RealOwnerPropertyFormModal = ({
                 {t("properties.locationDetails")}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">
-                    {t("properties.region")} *
+                <div
+                  className={`flex flex-col ${
+                    isRTL ? "items-end" : "items-start"
+                  }`}
+                >
+                  <label
+                    className={`block text-sm font-medium text-gray-600 mb-2 ${
+                      isRTL ? "text-right" : "text-left"
+                    }`}
+                  >
+                    {t("properties.region")}
                   </label>
                   <select
                     value={formData.regionId}
@@ -235,9 +306,17 @@ export const RealOwnerPropertyFormModal = ({
                     ))}
                   </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">
-                    {t("properties.city")} *
+                <div
+                  className={`flex flex-col ${
+                    isRTL ? "items-end" : "items-start"
+                  }`}
+                >
+                  <label
+                    className={`block text-sm font-medium text-gray-600 mb-2 ${
+                      isRTL ? "text-right" : "text-left"
+                    }`}
+                  >
+                    {t("properties.city")}
                   </label>
                   <select
                     value={formData.cityId}
@@ -257,9 +336,17 @@ export const RealOwnerPropertyFormModal = ({
                     ))}
                   </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">
-                    {t("properties.neighborhood")} *
+                <div
+                  className={`flex flex-col ${
+                    isRTL ? "items-end" : "items-start"
+                  }`}
+                >
+                  <label
+                    className={`block text-sm font-medium text-gray-600 mb-2 ${
+                      isRTL ? "text-right" : "text-left"
+                    }`}
+                  >
+                    {t("properties.neighborhood")}
                   </label>
                   <select
                     value={formData.neighborhoodId}
@@ -287,9 +374,15 @@ export const RealOwnerPropertyFormModal = ({
             </div>
 
             {/* Listing Type */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t("properties.listingType")} *
+            <div
+              className={`flex flex-col ${isRTL ? "items-end" : "items-start"}`}
+            >
+              <label
+                className={`block text-sm font-medium text-gray-700 mb-2 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
+              >
+                {t("properties.listingType")}
               </label>
               <select
                 value={formData.listingTypeId}
@@ -311,7 +404,11 @@ export const RealOwnerPropertyFormModal = ({
 
             {/* Sub Units */}
             <div className="bg-gray-50 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-4">
+              <div
+                className={`flex items-center justify-between mb-4 ${
+                  isRTL ? "flex-row-reverse" : ""
+                }`}
+              >
                 <h3 className="font-semibold text-gray-900">
                   {t("properties.subUnits")}
                 </h3>
@@ -331,7 +428,11 @@ export const RealOwnerPropertyFormModal = ({
                   key={index}
                   className="bg-white rounded-lg p-4 border border-gray-200 mb-4"
                 >
-                  <div className="flex items-center justify-between mb-4">
+                  <div
+                    className={`flex items-center justify-between mb-4 ${
+                      isRTL ? "flex-row-reverse" : ""
+                    }`}
+                  >
                     <h4 className="font-medium text-gray-900">
                       {t("properties.unit")} {index + 1}
                     </h4>
@@ -347,9 +448,17 @@ export const RealOwnerPropertyFormModal = ({
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("properties.propertyType")} *
+                    <div
+                      className={`flex flex-col ${
+                        isRTL ? "items-end" : "items-start"
+                      }`}
+                    >
+                      <label
+                        className={`block text-sm font-medium text-gray-600 mb-1 ${
+                          isRTL ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {t("properties.propertyType")}
                       </label>
                       <select
                         value={unit.propertyTypeId}
@@ -373,9 +482,17 @@ export const RealOwnerPropertyFormModal = ({
                       </select>
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("properties.paymentType")} *
+                    <div
+                      className={`flex flex-col ${
+                        isRTL ? "items-end" : "items-start"
+                      }`}
+                    >
+                      <label
+                        className={`block text-sm font-medium text-gray-600 mb-1 ${
+                          isRTL ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {t("properties.paymentType")}
                       </label>
                       <select
                         value={unit.paymentType}
@@ -397,9 +514,17 @@ export const RealOwnerPropertyFormModal = ({
                       </select>
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("properties.price")} *
+                    <div
+                      className={`flex flex-col ${
+                        isRTL ? "items-end" : "items-start"
+                      }`}
+                    >
+                      <label
+                        className={`block text-sm font-medium text-gray-600 mb-1 ${
+                          isRTL ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {t("properties.price")}
                       </label>
                       <input
                         type="number"
@@ -418,8 +543,16 @@ export const RealOwnerPropertyFormModal = ({
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
+                    <div
+                      className={`flex flex-col ${
+                        isRTL ? "items-end" : "items-start"
+                      }`}
+                    >
+                      <label
+                        className={`block text-sm font-medium text-gray-600 mb-1 ${
+                          isRTL ? "text-right" : "text-left"
+                        }`}
+                      >
                         {t("properties.paidAmount")}
                       </label>
                       <input
@@ -440,8 +573,16 @@ export const RealOwnerPropertyFormModal = ({
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
+                    <div
+                      className={`flex flex-col ${
+                        isRTL ? "items-end" : "items-start"
+                      }`}
+                    >
+                      <label
+                        className={`block text-sm font-medium text-gray-600 mb-1 ${
+                          isRTL ? "text-right" : "text-left"
+                        }`}
+                      >
                         {t("properties.paymentValue")}
                       </label>
                       <input
@@ -460,25 +601,59 @@ export const RealOwnerPropertyFormModal = ({
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {t("properties.customPaymentDays")}
+                    <div
+                      className={`flex flex-col ${
+                        isRTL ? "items-end" : "items-start"
+                      }`}
+                    >
+                      <label
+                        className={`block text-sm font-medium text-gray-600 mb-1 ${
+                          isRTL ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {t("properties.tenantName")}
                       </label>
                       <input
-                        type="number"
-                        value={unit.customPaymentDays || ""}
+                        type="text"
+                        value={unit.tenantName || ""}
                         onChange={(e) =>
                           handleSubUnitChange(
                             index,
-                            "customPaymentDays",
-                            e.target.value === ""
-                              ? null
-                              : parseInt(e.target.value)
+                            "tenantName",
+                            e.target.value || null
                           )
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        min="0"
-                        placeholder="Leave empty for null"
+                        placeholder={t("properties.tenantNamePlaceholder")}
+                      />
+                    </div>
+
+                    <div
+                      className={`flex flex-col ${
+                        isRTL ? "items-end" : "items-start"
+                      }`}
+                    >
+                      <label
+                        className={`block text-sm font-medium text-gray-600 mb-1 ${
+                          isRTL ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {t("properties.tenantPhoneNumber")}
+                      </label>
+                      <input
+                        type="tel"
+                        value={unit.tenantPhoneNumber || ""}
+                        onChange={(e) =>
+                          handleSubUnitChange(
+                            index,
+                            "tenantPhoneNumber",
+                            e.target.value || null
+                          )
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder={t(
+                          "properties.tenantPhoneNumberPlaceholder"
+                        )}
                       />
                     </div>
                   </div>

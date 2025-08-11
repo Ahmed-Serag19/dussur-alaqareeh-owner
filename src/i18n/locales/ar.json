@@ -74,83 +74,6 @@
       "totalUsers": "إجمالي المستخدمين"
     }
   },
-  "properties": {
-    "title": "العنوان",
-    "area": "المساحة",
-    "propertyType": "نوع العقار",
-    "listingType": "نوع الإعلان",
-    "descriptionAr": "الوصف بالعربية",
-    "descriptionEn": "الوصف بالإنجليزية",
-    "region": "المنطقة",
-    "city": "المدينة",
-    "neighborhood": "الحي",
-    "streetAr": "الشارع (عربي)",
-    "streetEn": "الشارع (إنجليزي)",
-    "roomsCount": "عدد الغرف",
-    "bathroomsCount": "عدد دورات المياه",
-    "livingroomsCount": "عدد الصالات ",
-    "floorsCount": "عدد الطوابق",
-    "buildingAge": "عمر المبنى",
-    "condition": "حالة العقار",
-    "finishType": "نوع التشطيب",
-    "systemInformation": "معلومات النظام",
-    "featuresTitle": "مميزات العقار",
-    "status": {
-      "pending": "معلق",
-      "approved": "مقبول",
-      "rejected": "مرفوض"
-    },
-    "tabs": {
-      "all": "الكل",
-      "pending": "معلقة",
-      "approved": "مقبولة",
-      "rejected": "مرفوضة"
-    },
-    "actions": {
-      "view": "عرض",
-      "approve": "موافقة",
-      "reject": "رفض",
-      "delete": "حذف",
-      "approveSuccess": "تم قبول العقار بنجاح",
-      "approveError": "حدث خطأ في قبول العقار",
-      "rejectSuccess": "تم رفض العقار بنجاح",
-      "rejectError": "حدث خطأ في رفض العقار",
-      "deleteSuccess": "تم حذف العقار بنجاح",
-      "deleteError": "حدث خطأ في حذف العقار",
-      "deleteConfirm": "هل أنت متأكد من حذف هذا العقار؟"
-    },
-    "list": {
-      "title": "إدارة العقارات",
-      "subtitle": "عرض وإدارة جميع طلبات العقارات",
-      "noProperties": "لا توجد عقارات",
-      "noPropertiesDesc": "لم يتم العثور على أي عقارات في هذه الفئة",
-      "errorTitle": "خطأ في تحميل العقارات",
-      "errorMessage": "حدث خطأ أثناء تحميل العقارات. يرجى المحاولة مرة أخرى.",
-      "refreshSuccess": "تم تحديث البيانات بنجاح"
-    },
-    "viewModal": {
-      "generalInfo": "المعلومات العامة",
-      "propertySpecs": "مواصفات العقار",
-      "locationDetails": "تفاصيل الموقع",
-      "coordinates": "الإحداثيات",
-      "propertyId": "رقم العقار",
-      "adminId": "رقم المدير",
-      "adminEmail": "بريد المدير الإلكتروني",
-      "statusId": "رقم الحالة",
-      "createdAt": "تاريخ الإنشاء",
-      "updatedAt": "تاريخ التحديث",
-      "address": "العنوان",
-      "viewOnMap": "عرض على الخريطة"
-    },
-    "confirmModal": {
-      "approveTitle": "تأكيد الموافقة",
-      "approveMessage": "هل أنت متأكد من الموافقة على العقار \"{{title}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
-      "rejectTitle": "تأكيد الرفض",
-      "rejectMessage": "هل أنت متأكد من رفض العقار \"{{title}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
-      "deleteTitle": "تأكيد الحذف",
-      "deleteMessage": "هل أنت متأكد من حذف العقار \"{{title}}\"؟ سيتم حذف العقار نهائياً ولا يمكن استرداده."
-    }
-  },
   "users": {
     "title": "المستخدمين",
     "viewAll": "عرض جميع المستخدمين",
@@ -176,6 +99,7 @@
     "edit": "تعديل",
     "delete": "حذف",
     "deleting": "جاري الحذف...",
+    "confirmDelete": "تأكيد الحذف",
     "view": "عرض",
     "add": "إضافة",
     "search": "بحث",
@@ -286,6 +210,8 @@
       "ibanImage": "صورة الحساب البنكي",
       "ibanImagePlaceholder": "رفع صورة الحساب البنكي",
       "ibanImageChangePlaceholder": "انقر لتغيير صورة الحساب البنكي",
+      "ibanImageUrl": "رابط صورة الحساب البنكي",
+      "ibanImageUrlPlaceholder": "أدخل رابط صورة الحساب البنكي",
       "imageEditNote": "لا يمكن تغيير الصورة أثناء التعديل. يرجى الاتصال بالدعم إذا كنت بحاجة لتحديث الصورة.",
       "removeImage": "إزالة الصورة"
     },
@@ -298,13 +224,13 @@
       "ibanInvalid": "صيغة رقم الحساب البنكي غير صحيحة"
     },
     "properties": "العقارات",
-    "propertiesSubtitle": "عرض وإدارة العقارات لهذا المالك الحقيقي",
+    "propertiesSubtitle": "عرض وإدارة العقارات لهذا المالك ",
     "noProperties": "لا توجد عقارات لهذا المالك",
     "addProperty": "إضافة عقار",
     "propertyDetails": "تفاصيل العقار"
   },
   "properties": {
-    "title": "العنوان",
+    "title": "اسم العقار",
     "area": "المساحة",
     "propertyType": "نوع العقار",
     "listingType": "نوع الإعلان",
@@ -346,7 +272,10 @@
     "create": "إنشاء",
     "update": "تحديث",
     "paymentValue": "قيمة الدفع",
-    "customPaymentDays": "أيام الدفع المخصصة",
+    "tenantName": "اسم المستأجر",
+    "tenantNamePlaceholder": "أدخل اسم المستأجر",
+    "tenantPhoneNumber": "رقم هاتف المستأجر",
+    "tenantPhoneNumberPlaceholder": "أدخل رقم هاتف المستأجر",
     "paidComplete": "تم الدفع",
     "fullName": "الاسم الكامل",
     "phoneNumber": "رقم الهاتف",
@@ -354,6 +283,8 @@
     "isPaid": "تم الدفع",
     "monthly": "شهري",
     "yearly": "سنوي",
+    "MONTHLY": "شهري",
+    "YEARLY": "سنوي",
     "status": {
       "pending": "معلق",
       "approved": "مقبول",
@@ -378,6 +309,9 @@
       "deleteError": "حدث خطأ في حذف العقار",
       "deleteConfirm": "هل أنت متأكد من حذف هذا العقار؟"
     },
+    "createSuccess": "تم إنشاء العقار بنجاح",
+    "updateSuccess": "تم تحديث العقار بنجاح",
+    "deleteSuccess": "تم حذف العقار بنجاح",
     "list": {
       "title": "إدارة العقارات",
       "subtitle": "عرض وإدارة جميع طلبات العقارات",

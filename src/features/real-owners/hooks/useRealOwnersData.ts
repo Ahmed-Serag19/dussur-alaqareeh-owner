@@ -6,12 +6,10 @@ import {
   updateRealOwner,
   deleteRealOwner,
 } from "../api/real-owner.api";
-import type {
-  CreateRealOwnerRequest,
-  UpdateRealOwnerRequest,
-} from "../types/real-owner-response.types";
+import type { UpdateRealOwnerRequest } from "../types/real-owner-response.types";
 import { toast } from "react-hot-toast";
 import useLanguage from "@/hooks/useLanguage";
+import { extractErrorMessage, logError } from "@/lib/errorHandler";
 
 export const useRealOwnersData = () => {
   const queryClient = useQueryClient();
@@ -24,7 +22,13 @@ export const useRealOwnersData = () => {
     refetch,
   } = useQuery({
     queryKey: ["real-owners"],
-    queryFn: () => getRealOwners().then((res) => res.data),
+    queryFn: () => {
+      console.log("useRealOwnersData - Fetching real owners data...");
+      return getRealOwners().then((res) => {
+        console.log("useRealOwnersData - Real owners data fetched:", res.data);
+        return res.data;
+      });
+    },
     staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
     gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
   });
@@ -36,28 +40,40 @@ export const useRealOwnersData = () => {
       queryClient.invalidateQueries({ queryKey: ["real-owners"] });
       toast.success(t("realOwners.toast.createSuccess"));
     },
-    onError: (error: any) => {
-      const errorMessage =
-        error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        t("realOwners.toast.createError");
+    onError: (error: unknown) => {
+      logError(error, "Create Real Owner");
+      const errorMessage = extractErrorMessage(error);
       toast.error(errorMessage);
     },
   });
 
   const updateRealOwnerMutation = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: UpdateRealOwnerRequest }) =>
-      updateRealOwner(id, data),
-    onSuccess: () => {
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: UpdateRealOwnerRequest;
+    }) => {
+      console.log("useRealOwnersData - Updating real owner:", { id, data });
+      return updateRealOwner(id, data);
+    },
+    onSuccess: (data, variables) => {
+      console.log("useRealOwnersData - Update successful:", data);
+      console.log("useRealOwnersData - Invalidating queries for refetch...");
       // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey: ["real-owners"] });
+      // Also invalidate the specific real owner query
+      queryClient.invalidateQueries({ queryKey: ["real-owner", variables.id] });
+      console.log(
+        "useRealOwnersData - Queries invalidated, data will be refetched"
+      );
       toast.success(t("realOwners.toast.updateSuccess"));
     },
-    onError: (error: any) => {
-      const errorMessage =
-        error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        t("realOwners.toast.updateError");
+    onError: (error: unknown) => {
+      console.log("useRealOwnersData - Update error:", error);
+      logError(error, "Update Real Owner");
+      const errorMessage = extractErrorMessage(error);
       toast.error(errorMessage);
     },
   });
@@ -69,16 +85,14 @@ export const useRealOwnersData = () => {
       queryClient.invalidateQueries({ queryKey: ["real-owners"] });
       toast.success(t("realOwners.toast.deleteSuccess"));
     },
-    onError: (error: any) => {
-      const errorMessage =
-        error?.response?.data?.error ||
-        error?.response?.data?.message ||
-        t("realOwners.toast.deleteError");
+    onError: (error: unknown) => {
+      logError(error, "Delete Real Owner");
+      const errorMessage = extractErrorMessage(error);
       toast.error(errorMessage);
     },
   });
 
-  const getRealOwnerByIdQuery = (id: number) => {
+  const useGetRealOwnerById = (id: number) => {
     return useQuery({
       queryKey: ["real-owner", id],
       queryFn: () => getRealOwnerById(id).then((res) => res.data),
@@ -96,9 +110,13 @@ export const useRealOwnersData = () => {
     createRealOwner: createRealOwnerMutation.mutate,
     updateRealOwner: updateRealOwnerMutation.mutate,
     deleteRealOwner: deleteRealOwnerMutation.mutate,
-    getRealOwnerById: getRealOwnerByIdQuery,
+    getRealOwnerById: useGetRealOwnerById,
     isCreating: createRealOwnerMutation.isPending,
     isUpdating: updateRealOwnerMutation.isPending,
     isDeleting: deleteRealOwnerMutation.isPending,
+    // Add a function to manually refetch all real owners data
+    refetchRealOwners: () => {
+      queryClient.invalidateQueries({ queryKey: ["real-owners"] });
+    },
   };
 };

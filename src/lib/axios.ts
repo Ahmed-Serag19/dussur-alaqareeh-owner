@@ -1,4 +1,5 @@
 import axios from "axios";
+import { extractErrorMessage } from "./errorHandler";
 
 export const axiosInstance = axios.create({
   baseURL: "https://backend.aqaar.dussur.sa/api",
@@ -27,6 +28,18 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor to handle errors and extract actual error messages
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // Use the comprehensive error handler to extract meaningful messages
+    error.message = extractErrorMessage(error);
     return Promise.reject(error);
   }
 );
